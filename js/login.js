@@ -76,21 +76,34 @@ hideLoading();
 if(res.status=="success"){
 
 localStorage.setItem(
-"nama",
-res.nama
+
+"user",
+
+JSON.stringify({
+
+userId:res.userId,
+
+nama:res.nama,
+
+nrp:res.nrp,
+
+role:res.role
+
+})
+
 );
 
-localStorage.setItem(
-"nrp",
-res.nrp
-);
+if(res.role=="Admin"){
 
-alert(
-"Login berhasil."
-);
+window.location="admin.html";
 
-window.location=
-"index.html";
+}else{
+
+window.location="index.html";
+
+}
+
+}
 
 return;
 
