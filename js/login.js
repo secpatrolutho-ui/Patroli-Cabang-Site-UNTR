@@ -1,5 +1,5 @@
 const API =
-"https://SCRIPT-ANDA/exec";
+"https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/execc";
 
 document
 .getElementById("btnLogin")
