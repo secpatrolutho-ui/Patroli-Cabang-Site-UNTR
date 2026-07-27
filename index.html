@@ -4,114 +4,146 @@
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Patroli Digital Cabang & Site</title>
 
 <link rel="stylesheet" href="css/style.css">
 
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-<div class="container">
+<!-- ================= HEADER ================= -->
 
 <header>
 
-<img src="img/logo-ut.png" class="logo">
+<img src="img/logo-ut.png">
+
+<div>
 
 <h1>Patroli Digital</h1>
 
 <p>Cabang & Site</p>
 
+</div>
+
 </header>
 
 
+<div class="container">
+
+<!-- ================= PERSONEL ================= -->
+
 <div class="card">
 
-<h3>Informasi Personel</h3>
+<h3>
+<i class="fa-solid fa-user"></i>
+Informasi Personel
+</h3>
 
-<div class="item">
+<div class="info">
 
 <label>Nama</label>
 
-<span id="nama">
-Memuat...
-</span>
+<span id="nama">Memuat...</span>
 
 </div>
 
-<div class="item">
+<div class="info">
 
 <label>NRP</label>
 
-<span id="nrp">
-Memuat...
-</span>
+<span id="nrp">Memuat...</span>
 
 </div>
 
 </div>
 
+<!-- ================= CHECKPOINT ================= -->
 
 <div class="card">
 
-<h3>Checkpoint</h3>
+<h3>
 
-<div class="item">
+<i class="fa-solid fa-location-dot"></i>
+
+Checkpoint
+
+</h3>
+
+<div class="info">
 
 <label>Wilayah</label>
 
-<span id="wilayah">
+<span class="badge" id="wilayah">
+
 -
+
 </span>
 
 </div>
 
-<div class="item">
+<div class="info">
 
-<label>Checkpoint</label>
+<label>Titik Checkpoint</label>
 
 <span id="checkpoint">
+
 -
+
 </span>
 
 </div>
 
 </div>
 
+<!-- ================= GPS ================= -->
 
 <div class="card">
 
-<h3>Status GPS</h3>
+<h3>
 
-<div class="gps-status loading">
+<i class="fa-solid fa-satellite-dish"></i>
 
-<span>
+Status GPS
 
-📡
+</h3>
 
-</span>
+<div class="info">
 
-<span id="gpsStatus">
+<label>Status</label>
 
-Mencari lokasi...
+<span
+
+id="gpsStatus"
+
+class="status-warning">
+
+Mencari Lokasi...
 
 </span>
 
 </div>
 
-</div>
+<div class="info">
 
+<label>Jarak</label>
 
-<div class="card">
+<span
 
-<h3>Jarak</h3>
+id="distance"
 
-<div class="distance">
-
-<span id="distance">
+class="distance">
 
 0 Meter
 
@@ -119,12 +151,33 @@ Mencari lokasi...
 
 </div>
 
+<div class="progress">
+
+<div
+
+id="progressBar"
+
+class="progress-bar">
+
 </div>
 
+</div>
+
+</div>
+
+<!-- ================= SITUASI ================= -->
 
 <div class="card">
 
-<h3>Situasi Patroli</h3>
+<h3>
+
+<i class="fa-solid fa-circle-exclamation"></i>
+
+Situasi Patroli
+
+</h3>
+
+<div class="form-group">
 
 <select id="situasi">
 
@@ -192,13 +245,59 @@ K09 - Security & Emergency
 
 </div>
 
+<div class="form-group">
 
-<button id="submitBtn">
+<label>
+
+Deskripsi Temuan
+
+</label>
+
+<textarea
+
+id="deskripsi"
+
+placeholder="Tuliskan deskripsi temuan..."
+
+disabled>
+
+</textarea>
+
+</div>
+
+</div>
+
+<!-- ================= BUTTON ================= -->
+
+<button id="btnSubmit">
+
+<i class="fa-solid fa-paper-plane"></i>
 
 SUBMIT PATROLI
 
 </button>
 
+</div>
+
+<!-- ================= LOADING ================= -->
+
+<div
+
+id="loading"
+
+class="loading">
+
+<div class="spinner"></div>
+
+<p>
+
+Mohon Tunggu...
+
+</p>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
 
 <footer>
 
@@ -209,8 +308,6 @@ Security Department
 PT United Tractors Tbk
 
 </footer>
-
-</div>
 
 <script src="js/patrol.js"></script>
 
