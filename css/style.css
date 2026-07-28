@@ -79,6 +79,20 @@ header{
 
 }
 
+/* Logo PT United Tractors */
+
+.logo{
+
+    width:70px;
+
+    height:auto;
+
+    object-fit:contain;
+
+    display:block;
+
+}
+
 header img{
 
     width:70px;
