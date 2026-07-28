@@ -79,88 +79,59 @@ async function submitPatroli(){
 
     try{
 
-        const payload = {
+        try{
 
-    action: "submitPatroli",
+    const payload = {
 
-    nama: getNama(),
+        action:"submitPatroli",
 
-    nrp: getNRP(),
+        nama:getNama(),
 
-    checkpointId: checkpointData.checkpointId,
+        nrp:getNRP(),
 
-    situasi: situasi,
+        checkpointId:checkpointData.checkpointId,
 
-    deskripsi: deskripsi,
+        situasi:situasi,
 
-    latitude: currentLat,
+        deskripsi:deskripsi,
 
-    longitude: currentLng,
+        latitude:currentLat,
 
-    jarak: currentDistance
+        longitude:currentLng,
 
-};
+        jarak:currentDistance
 
-console.log(payload);
+    };
 
-const response = await fetch(API, {
+    console.log(payload);
 
-    method: "POST",
+    const response = await fetch(API,{
 
-    body: JSON.stringify(payload)
+        method:"POST",
 
-});
-       
-       const response =
-        await fetch(API,{
+        body:JSON.stringify(payload)
 
-            method:"POST",
+    });
 
-            body:JSON.stringify({
+    const result = await response.json();
 
-                action:"submitPatroli",
+    console.log(result);
 
-                nama:getNama(),
+    hideLoading();
 
-                nrp:getNRP(),
+    if(result.status=="success"){
 
-                checkpointId:
-                checkpointData.checkpointId,
+        alertSuccess(result.pesan);
 
-                situasi:situasi,
+        location.reload();
 
-                deskripsi:deskripsi,
+    }else{
 
-                latitude:currentLat,
-
-                longitude:currentLng,
-
-                jarak:currentDistance
-
-            })
-
-        });
-
-        const result =
-        await response.json();
-
-        hideLoading();
-
-        if(result.status=="success"){
-
-            alertSuccess(result.pesan);
-
-            location.reload();
-
-        }
-
-        else{
-
-            alertError(result.pesan);
-
-        }
+        alertError(result.pesan);
 
     }
+
+}
 
     catch(err){
 
