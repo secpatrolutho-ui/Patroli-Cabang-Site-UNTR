@@ -1,27 +1,27 @@
-/* =====================================
+/* ===================================================
    SUBMIT MODULE
-===================================== */
+   PATROLI DIGITAL CABANG & SITE
+=================================================== */
 
 function initSubmit(){
 
-    document
-    .getElementById("btnSubmit")
-    .addEventListener(
+    const btn = document.getElementById("btnSubmit");
 
-        "click",
+    if(btn){
 
-        submitPatroli
+        btn.addEventListener("click", submitPatroli);
 
-    );
+    }
 
 }
 
-/* ===================================== */
+/* ===================================================
+   SUBMIT PATROLI
+=================================================== */
 
 async function submitPatroli(){
 
-    const btn =
-    document.getElementById("btnSubmit");
+    const btn = document.getElementById("btnSubmit");
 
     btn.disabled = true;
 
@@ -29,35 +29,29 @@ async function submitPatroli(){
 
     if(!checkpointData){
 
-        alertError("Checkpoint belum dimuat.");
+        alertError("Data checkpoint belum dimuat.");
 
-        btn.disabled=false;
+        btn.disabled = false;
 
         return;
 
     }
 
-    if(currentLat==null){
+    if(currentLat == null || currentLng == null){
 
         alertError("GPS belum siap.");
 
-        btn.disabled=false;
+        btn.disabled = false;
 
         return;
 
     }
 
-    if(
-
-        currentDistance>
-
-        Number(checkpointData.radius)
-
-    ){
+    if(currentDistance > Number(checkpointData.radius)){
 
         alertError("Anda berada di luar radius checkpoint.");
 
-        btn.disabled=false;
+        btn.disabled = false;
 
         return;
 
@@ -66,86 +60,112 @@ async function submitPatroli(){
     /* ================= AMBIL FORM ================= */
 
     const situasi =
-    document
-    .getElementById("situasi")
-    .value;
+    document.getElementById("situasi").value;
 
     const deskripsi =
-    document
-    .getElementById("deskripsi")
-    .value;
+    document.getElementById("deskripsi").value.trim();
+
+    /* ================= VALIDASI DESKRIPSI ================= */
+
+    if(situasi != "K10" && deskripsi == ""){
+
+        alertError("Deskripsi temuan wajib diisi.");
+
+        btn.disabled = false;
+
+        return;
+
+    }
+
+    /* ================= PAYLOAD ================= */
+
+    const payload = {
+
+        action : "submitPatroli",
+
+        nama : getNama(),
+
+        nrp : getNRP(),
+
+        checkpointId : checkpointData.checkpointId,
+
+        lokasi : checkpointData.lokasi,
+
+        wilayah : checkpointData.wilayah,
+
+        checkpoint : checkpointData.checkpoint,
+
+        situasi : situasi,
+
+        deskripsi : deskripsi,
+
+        latitude : currentLat,
+
+        longitude : currentLng,
+
+        jarak : currentDistance
+
+    };
+
+    console.log("========== PAYLOAD ==========");
+    console.log(payload);
 
     showLoading();
 
     try{
 
-        try{
+        const response = await fetch(API,{
 
-    const payload = {
+            method:"POST",
 
-        action:"submitPatroli",
+            headers:{
+                "Content-Type":"application/json"
+            },
 
-        nama:getNama(),
+            body:JSON.stringify(payload)
 
-        nrp:getNRP(),
+        });
 
-        checkpointId:checkpointData.checkpointId,
+        const result = await response.json();
 
-        situasi:situasi,
-
-        deskripsi:deskripsi,
-
-        latitude:currentLat,
-
-        longitude:currentLng,
-
-        jarak:currentDistance
-
-    };
-
-    console.log(payload);
-
-    const response = await fetch(API,{
-
-        method:"POST",
-
-        body:JSON.stringify(payload)
-
-    });
-
-    const result = await response.json();
-
-    console.log(result);
-
-    hideLoading();
-
-    if(result.status=="success"){
-
-        alertSuccess(result.pesan);
-
-        location.reload();
-
-    }else{
-
-        alertError(result.pesan);
-
-    }
-
-}
-
-    catch(err){
-
-        console.log(err);
+        console.log("========== RESPONSE ==========");
+        console.log(result);
 
         hideLoading();
 
-        alertError("Server tidak merespon.");
+        if(result.status=="success"){
+
+            alertSuccess(result.pesan);
+
+            setTimeout(()=>{
+
+                location.reload();
+
+            },1000);
+
+        }
+
+        else{
+
+            alertError(result.pesan);
+
+        }
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        hideLoading();
+
+        alertError("Gagal terhubung ke server.");
 
     }
 
     finally{
 
-        btn.disabled=false;
+        btn.disabled = false;
 
     }
 
