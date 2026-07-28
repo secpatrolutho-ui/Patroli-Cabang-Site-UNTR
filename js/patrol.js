@@ -38,6 +38,9 @@ if(!checkpointID){
 /* ========= VARIABEL GLOBAL ========= */
 
 let checkpointData = null;
+let currentLat = null;
+let currentLng = null;
+let currentDistance = 0;
 
 /* ===================================================
    LOAD CHECKPOINT
@@ -81,6 +84,10 @@ async function loadCheckpoint(){
 
         checkpointData = result;
 
+        console.log("Checkpoint berhasil dimuat");
+
+        console.log(checkpointData);
+
         tampilCheckpoint(result);
 
     }
@@ -101,8 +108,14 @@ async function loadCheckpoint(){
 
 function tampilCheckpoint(data){
 
+    document.getElementById("lokasi").innerText =
+    data.lokasi;
+
     document.getElementById("wilayah").innerText =
     data.wilayah;
+
+    document.getElementById("checkpointId").innerText =
+    data.checkpointId;
 
     document.getElementById("checkpoint").innerText =
     data.checkpoint;
