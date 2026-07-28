@@ -8,4 +8,6 @@ window.onload=async()=>{
 
     await loadCheckpoint();
 
+    initsubmit();
+
 }
