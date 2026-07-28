@@ -4,20 +4,33 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Patroli Digital Cabang & Site</title>
 
-<link rel="stylesheet" href="css/style.css">
+<!-- CSS -->
+
+<link rel="stylesheet"
+href="css/style.css">
+
+<!-- Font Awesome -->
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<!-- Google Font -->
 
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
 
 </head>
 
@@ -28,9 +41,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <header>
 
     <img
-    src="img/UT member of ASTRA horizontal.png"
-    class="logo"
-    alt="PT United Tractors">
+    src="img/logo-ut.png"
+    class="logo">
 
     <div>
 
@@ -42,275 +54,235 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </header>
 
+<!-- ================= CONTAINER ================= -->
 
 <div class="container">
 
-<!-- ================= PERSONEL ================= -->
+    <!-- ================= PERSONEL ================= -->
 
-<div class="card">
+    <div class="card">
 
-<h3>
-<i class="fa-solid fa-user"></i>
-Informasi Personel
-</h3>
+        <h3>
 
-<div class="info">
+            <i class="fa-solid fa-user"></i>
 
-<label>Nama</label>
+            Informasi Personel
 
-<span id="nama">Memuat...</span>
+        </h3>
 
-</div>
+        <div class="info">
 
-<div class="info">
+            <label>Nama</label>
 
-<label>NRP</label>
+            <span id="nama">Memuat...</span>
 
-<span id="nrp">Memuat...</span>
+        </div>
 
-</div>
+        <div class="info">
 
-</div>
+            <label>NRP</label>
 
-<!-- ================= CHECKPOINT ================= -->
+            <span id="nrp">Memuat...</span>
 
-<div class="card">
+        </div>
 
-<h3>
+    </div>
 
-<i class="fa-solid fa-location-dot"></i>
+    <!-- ================= CHECKPOINT ================= -->
 
-Informasi Checkpoint
+    <div class="card">
 
-</h3>
+        <h3>
 
-<div class="info">
+            <i class="fa-solid fa-location-dot"></i>
 
-<label>Lokasi</label>
+            Checkpoint
 
-<span id="lokasi">
+        </h3>
 
--
+        <div class="info">
 
-</span>
+            <label>Lokasi</label>
 
-</div>
+            <span id="lokasi">-</span>
 
-<div class="info">
+        </div>
 
-<label>Wilayah</label>
+        <div class="info">
 
-<span class="badge" id="wilayah">
+            <label>Wilayah</label>
 
--
+            <span id="wilayah">-</span>
 
-</span>
+        </div>
 
-</div>
+        <div class="info">
 
-<div class="info">
+            <label>Checkpoint ID</label>
 
-<label>Checkpoint ID</label>
+            <span id="checkpointId">-</span>
 
-<span id="checkpointId">
+        </div>
 
--
+        <div class="info">
 
-</span>
+            <label>Checkpoint</label>
 
-</div>
+            <span id="checkpoint">-</span>
 
-<div class="info">
+        </div>
 
-<label>Checkpoint</label>
+    </div>
 
-<span id="checkpoint">
+    <!-- ================= GPS ================= -->
 
--
+    <div class="card">
 
-</span>
+        <h3>
 
-</div>
+            <i class="fa-solid fa-satellite-dish"></i>
 
-</div>
-<!-- ================= GPS ================= -->
+            Status GPS
 
-<div class="card">
+        </h3>
 
-<h3>
+        <div class="info">
 
-<i class="fa-solid fa-satellite-dish"></i>
+            <label>Status</label>
 
-Status GPS
+            <span id="gpsStatus"
+            class="status-warning">
 
-</h3>
+                Mencari Lokasi...
 
-<div class="info">
+            </span>
 
-<label>Status</label>
+        </div>
 
-<span
+        <div class="info">
 
-id="gpsStatus"
+            <label>Jarak</label>
 
-class="status-warning">
+            <span id="distance">
 
-Mencari Lokasi...
+                0 Meter
 
-</span>
+            </span>
 
-</div>
+        </div>
 
-<div class="info">
+        <div class="progress">
 
-<label>Jarak</label>
+            <div
+            id="progressBar"
+            class="progress-bar">
 
-<span
+            </div>
 
-id="distance"
+        </div>
 
-class="distance">
+    </div>
 
-0 Meter
+    <!-- ================= SITUASI ================= -->
 
-</span>
+    <div class="card">
 
-</div>
+        <h3>
 
-<div class="progress">
+            <i class="fa-solid fa-circle-exclamation"></i>
 
-<div
+            Situasi Patroli
 
-id="progressBar"
+        </h3>
 
-class="progress-bar">
+        <div class="form-group">
 
-</div>
+            <select id="situasi">
 
-</div>
+                <option value="K10">
+                    K10 - Aman dan Terkendali
+                </option>
 
-</div>
+                <option value="K01">
+                    K01 - Bangunan & Akses
+                </option>
 
-<!-- ================= SITUASI ================= -->
+                <option value="K02">
+                    K02 - Alat Kerja & Mekanik
+                </option>
 
-<div class="card">
+                <option value="K03">
+                    K03 - Peralatan Kantor
+                </option>
 
-<h3>
+                <option value="K04">
+                    K04 - Kendaraan
+                </option>
 
-<i class="fa-solid fa-circle-exclamation"></i>
+                <option value="K05">
+                    K05 - Kelistrikan
+                </option>
 
-Situasi Patroli
+                <option value="K06">
+                    K06 - Air & Sanitasi
+                </option>
 
-</h3>
+                <option value="K07">
+                    K07 - Pencahayaan
+                </option>
 
-<div class="form-group">
+                <option value="K08">
+                    K08 - Lingkungan & Cuaca
+                </option>
 
-<select id="situasi">
+                <option value="K09">
+                    K09 - Security & Emergency
+                </option>
 
-<option value="K10">
+            </select>
 
-K10 - Aman dan Terkendali
+        </div>
 
-</option>
+        <div class="form-group">
 
-<option value="K01">
+            <label>
 
-K01 - Bangunan & Akses
+                Deskripsi
 
-</option>
+            </label>
 
-<option value="K02">
+            <textarea
 
-K02 - Alat Kerja & Mekanik
+            id="deskripsi"
 
-</option>
+            placeholder="Masukkan deskripsi temuan..."
 
-<option value="K03">
+            disabled>
 
-K03 - Peralatan Kantor
+            </textarea>
 
-</option>
+        </div>
 
-<option value="K04">
+    </div>
 
-K04 - Kendaraan
+    <!-- ================= BUTTON ================= -->
 
-</option>
+    <button
+    id="btnSubmit"
+    disabled>
 
-<option value="K05">
+        <i class="fa-solid fa-paper-plane"></i>
 
-K05 - Kelistrikan
+        SUBMIT PATROLI
 
-</option>
-
-<option value="K06">
-
-K06 - Air & Sanitasi
-
-</option>
-
-<option value="K07">
-
-K07 - Pencahayaan
-
-</option>
-
-<option value="K08">
-
-K08 - Lingkungan & Cuaca
-
-</option>
-
-<option value="K09">
-
-K09 - Security & Emergency
-
-</option>
-
-</select>
-
-</div>
-
-<div class="form-group">
-
-<label>
-
-Deskripsi Temuan
-
-</label>
-
-<textarea
-
-id="deskripsi"
-
-placeholder="Tuliskan deskripsi temuan..."
-
-disabled>
-
-</textarea>
-
-</div>
-
-</div>
-
-<!-- ================= BUTTON ================= -->
-
-<button id="btnSubmit">
-
-<i class="fa-solid fa-paper-plane"></i>
-
-SUBMIT PATROLI
-
-</button>
+    </button>
 
 </div>
 
 <!-- ================= LOADING ================= -->
 
 <div
-
 id="loading"
-
 class="loading">
 
 <div class="spinner"></div>
@@ -334,6 +306,20 @@ Security Department
 PT United Tractors Tbk
 
 </footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="js/config.js"></script>
+
+<script src="js/utils.js"></script>
+
+<script src="js/auth.js"></script>
+
+<script src="js/checkpoint.js"></script>
+
+<script src="js/gps.js"></script>
+
+<script src="js/submit.js"></script>
 
 <script src="js/patrol.js"></script>
 
