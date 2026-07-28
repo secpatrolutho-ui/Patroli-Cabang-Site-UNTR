@@ -79,7 +79,39 @@ async function submitPatroli(){
 
     try{
 
-        const response =
+        const payload = {
+
+    action: "submitPatroli",
+
+    nama: getNama(),
+
+    nrp: getNRP(),
+
+    checkpointId: checkpointData.checkpointId,
+
+    situasi: situasi,
+
+    deskripsi: deskripsi,
+
+    latitude: currentLat,
+
+    longitude: currentLng,
+
+    jarak: currentDistance
+
+};
+
+console.log(payload);
+
+const response = await fetch(API, {
+
+    method: "POST",
+
+    body: JSON.stringify(payload)
+
+});
+       
+       const response =
         await fetch(API,{
 
             method:"POST",
