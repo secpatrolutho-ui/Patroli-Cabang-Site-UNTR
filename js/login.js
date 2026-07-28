@@ -1,5 +1,5 @@
 const API =
-"https://SCRIPT-WEBAPP-ANDA/exec";
+"https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
 function login(){
 
