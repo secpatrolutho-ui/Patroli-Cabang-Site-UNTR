@@ -1,55 +1,29 @@
 const API =
-"https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/execc";
-
-document
-.getElementById("btnLogin")
-.addEventListener(
-"click",
-login
-);
-
-function showLoading(){
-
-document
-.getElementById("loading")
-.classList.add("show");
-
-}
-
-function hideLoading(){
-
-document
-.getElementById("loading")
-.classList.remove("show");
-
-}
+"https://SCRIPT-WEBAPP-ANDA/exec";
 
 function login(){
 
 const nama =
 document
 .getElementById("nama")
-.value.trim();
+.value
+.trim();
 
 const nrp =
 document
 .getElementById("nrp")
-.value.trim();
+.value
+.trim();
 
-if(
-nama=="" ||
-nrp==""
-){
+if(nama=="" || nrp==""){
 
-alert(
-"Lengkapi Nama dan NRP."
-);
+alert("Lengkapi data.");
 
 return;
 
 }
 
-showLoading();
+document.getElementById("info").innerHTML="Memverifikasi...";
 
 fetch(
 
@@ -57,13 +31,9 @@ API+
 
 "?action=login"+
 
-"&nama="+
+"&nama="+encodeURIComponent(nama)+
 
-encodeURIComponent(nama)+
-
-"&nrp="+
-
-encodeURIComponent(nrp)
+"&nrp="+encodeURIComponent(nrp)
 
 )
 
@@ -71,55 +41,29 @@ encodeURIComponent(nrp)
 
 .then(res=>{
 
-hideLoading();
+document.getElementById("info").innerHTML=res.pesan||"";
 
 if(res.status=="success"){
 
-localStorage.setItem(
+localStorage.setItem("userId",res.userId);
 
-"user",
+localStorage.setItem("nama",res.nama);
 
-JSON.stringify({
+localStorage.setItem("nrp",res.nrp);
 
-userId:res.userId,
+localStorage.setItem("role",res.role);
 
-nama:res.nama,
+window.location.href="index.html";
 
-nrp:res.nrp,
-
-role:res.role
+}
 
 })
 
-);
+.catch(err=>{
 
-if(res.role=="Admin"){
+console.error(err);
 
-window.location="admin.html";
-
-}else{
-
-window.location="index.html";
-
-}
-
-}
-
-return;
-
-}
-
-alert(res.pesan);
-
-})
-
-.catch(()=>{
-
-hideLoading();
-
-alert(
-"Gagal terhubung ke server."
-);
+alert("Tidak dapat terhubung ke server.");
 
 });
 
