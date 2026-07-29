@@ -3,6 +3,7 @@
    APP CONTROLLER
 ========================================== */
 
+alert("APP.JS BERHASIL DIMUAT");
 window.addEventListener("load", initApp);
 
 async function initApp(){
