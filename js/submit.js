@@ -83,9 +83,7 @@ async function submitPatroli(){
 
         action : "submitPatroli",
 
-        nama : getNama(),
-
-        nrp : getNRP(),
+        userid : getUserid(),
 
         checkpointId : checkpointData.checkpointId,
 
