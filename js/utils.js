@@ -1,37 +1,106 @@
-/* =====================================
-   UTILS
-===================================== */
+/* ===================================================
+   PATROLI DIGITAL CABANG & SITE
+   UTILITY MODULE
+=================================================== */
+
+/* ===============================
+   LOADING
+================================ */
 
 function showLoading(){
 
-    document
-    .getElementById("loading")
-    ?.classList.add("show");
+    const loading = document.getElementById("loading");
+
+    if(loading){
+
+        loading.classList.add("show");
+
+    }
 
 }
 
 function hideLoading(){
 
-    document
-    .getElementById("loading")
-    ?.classList.remove("show");
+    const loading = document.getElementById("loading");
+
+    if(loading){
+
+        loading.classList.remove("show");
+
+    }
 
 }
 
-function alertError(msg){
+/* ===============================
+   ALERT
+================================ */
 
-    alert(msg);
+function alertSuccess(message){
 
-}
-
-function alertSuccess(msg){
-
-    alert(msg);
+    alert(message);
 
 }
 
-function formatMeter(jarak){
+function alertError(message){
 
-    return Number(jarak).toFixed(1)+" Meter";
+    alert(message);
+
+}
+
+/* ===============================
+   FORMAT
+================================ */
+
+function formatMeter(value){
+
+    if(value == null || isNaN(value)){
+
+        return "-";
+
+    }
+
+    return Number(value).toFixed(1) + " Meter";
+
+}
+
+/* ===============================
+   DOM HELPER
+================================ */
+
+function setText(id, value){
+
+    const el = document.getElementById(id);
+
+    if(el){
+
+        el.textContent = value;
+
+    }
+
+}
+
+function getValue(id){
+
+    const el = document.getElementById(id);
+
+    if(!el){
+
+        return "";
+
+    }
+
+    return el.value.trim();
+
+}
+
+/* ===============================
+   DEBUG
+================================ */
+
+function debug(title, data){
+
+    console.log("========== " + title + " ==========");
+
+    console.log(data);
 
 }
