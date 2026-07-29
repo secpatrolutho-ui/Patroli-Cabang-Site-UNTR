@@ -1,89 +1,46 @@
-/* =====================================
-   CHECKPOINT
-===================================== */
-
 let checkpointData=null;
 
 async function loadCheckpoint(){
 
-    showLoading();
+    const params=new URLSearchParams(window.location.search);
 
-    const params=
-    new URLSearchParams(window.location.search);
-
-    const id=
-    params.get("id");
+    const id=params.get("id");
 
     if(!id){
 
-        hideLoading();
+        alert("Checkpoint tidak ditemukan.");
 
-        alertError("Checkpoint tidak ditemukan.");
-
-        return;
+        return false;
 
     }
 
-    try{
+    const res=await fetch(
 
-        const res=
-        await fetch(
+        API+
 
-            API+
+        "?action=getCheckpoint&id="+
 
-            "?action=getCheckpoint&id="+
+        encodeURIComponent(id)
 
-            encodeURIComponent(id)
+    );
 
-        );
+    const data=await res.json();
 
-        const data=
-        await res.json();
+    if(data.status!="success"){
 
-        if(data.status!="success"){
+        alert(data.pesan);
 
-            hideLoading();
-
-            alertError(data.pesan);
-
-            return;
-
-        }
-
-        checkpointData=data;
-
-        tampilCheckpoint();
-
-        hideLoading();
-
-        mulaiGPS();
+        return false;
 
     }
 
-    catch(err){
+    checkpointData=data;
 
-        hideLoading();
+    document.getElementById("lokasi").textContent=data.lokasi;
+    document.getElementById("wilayah").textContent=data.wilayah;
+    document.getElementById("checkpointId").textContent=data.checkpointId;
+    document.getElementById("checkpoint").textContent=data.checkpoint;
 
-        console.log(err);
-
-        alertError("Gagal mengambil checkpoint.");
-
-    }
-
-}
-
-function tampilCheckpoint(){
-
-    document.getElementById("lokasi").innerHTML=
-    checkpointData.lokasi;
-
-    document.getElementById("wilayah").innerHTML=
-    checkpointData.wilayah;
-
-    document.getElementById("checkpointId").innerHTML=
-    checkpointData.checkpointId;
-
-    document.getElementById("checkpoint").innerHTML=
-    checkpointData.checkpoint;
+    return true;
 
 }
