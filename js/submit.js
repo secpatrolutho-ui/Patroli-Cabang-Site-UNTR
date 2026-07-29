@@ -70,31 +70,29 @@ async function submitPatroli() {
 
             const payload = {
 
-    action:"submitPatroli",
+            action:"submitPatroli",
 
-    nama:getNama(),
+            nama:getNama(),
 
-    nrp:getNRP(),
+            nrp:getNRP(),
 
-    checkpointId:checkpointData.checkpointId,
+            checkpointId:checkpointData.checkpointId,
 
-    lokasi:checkpointData.lokasi,
+            lokasi:checkpointData.lokasi,
 
-    wilayah:checkpointData.wilayah,
+            wilayah:checkpointData.wilayah,
 
-    checkpoint:checkpointData.checkpoint,
+            checkpoint:checkpointData.checkpoint,
 
-    situasi:situasi,
+            situasi:situasi,
 
-    deskripsi:deskripsi,
+            deskripsi:deskripsi,
 
-    latitude:currentLat,
+            latitude:currentLat,
 
-    longitude:currentLng,
+            longitude:currentLng,
 
-    jarak:currentDistance
-
-};
+            jarak:currentDistance
 
         };
 
