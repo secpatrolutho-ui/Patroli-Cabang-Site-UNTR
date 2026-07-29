@@ -68,23 +68,33 @@ async function submitPatroli() {
 
         const payload = {
 
-            action: "submitPatroli",
+            const payload = {
 
-            nama: getNama(),
+    action:"submitPatroli",
 
-            nrp: getNRP(),
+    nama:getNama(),
 
-            checkpointId: checkpointData.checkpointId,
+    nrp:getNRP(),
 
-            situasi: situasi,
+    checkpointId:checkpointData.checkpointId,
 
-            deskripsi: deskripsi,
+    lokasi:checkpointData.lokasi,
 
-            latitude: currentLat,
+    wilayah:checkpointData.wilayah,
 
-            longitude: currentLng,
+    checkpoint:checkpointData.checkpoint,
 
-            jarak: currentDistance
+    situasi:situasi,
+
+    deskripsi:deskripsi,
+
+    latitude:currentLat,
+
+    longitude:currentLng,
+
+    jarak:currentDistance
+
+};
 
         };
 
