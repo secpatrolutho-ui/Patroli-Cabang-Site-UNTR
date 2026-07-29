@@ -1,37 +1,28 @@
-/* =====================================
-   APP
-===================================== */
+/* ==========================================
+   PATROLI DIGITAL
+   APP CONTROLLER
+========================================== */
 
-console.log("APP BERHASIL DIMUAT");
+window.addEventListener("load", initApp);
 
-window.onload = async function () {
+async function initApp(){
 
-    console.log("window.onload");
+    console.log("APP START");
 
-    if (!checkLogin()) {
+    // 1. Cek Login
+    if(!checkLogin()) return;
 
-        console.log("Belum login");
-
-        return;
-
-    }
-
-    console.log("Login OK");
-
+    // 2. Ambil Data Checkpoint
     const ok = await loadCheckpoint();
 
-    console.log("loadCheckpoint =", ok);
+    if(!ok) return;
 
-    if (!ok) return;
-
-    console.log("Checkpoint OK");
-
+    // 3. Aktifkan GPS
     mulaiGPS();
 
-    console.log("GPS dimulai");
-
+    // 4. Aktifkan Tombol Submit
     initSubmit();
 
-    console.log("Submit siap");
+    console.log("APP READY");
 
-};
+}
