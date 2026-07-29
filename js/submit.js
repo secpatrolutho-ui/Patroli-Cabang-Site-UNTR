@@ -1,149 +1,132 @@
-/* ===================================================
+/* ===========================================
    SUBMIT MODULE
-   PATROLI DIGITAL CABANG & SITE
-=================================================== */
+=========================================== */
 
-function initSubmit(){
+function initSubmit() {
 
     const btn = document.getElementById("btnSubmit");
 
-    if(btn){
+    if (!btn) return;
 
-        btn.addEventListener("click", submitPatroli);
-
-    }
+    btn.addEventListener("click", submitPatroli);
 
 }
 
-/* ===================================================
+/* ===========================================
    SUBMIT PATROLI
-=================================================== */
+=========================================== */
 
-async function submitPatroli(){
+async function submitPatroli() {
 
     const btn = document.getElementById("btnSubmit");
 
     btn.disabled = true;
 
-    /* ================= VALIDASI ================= */
+    try {
 
-    if(!checkpointData){
+        /* ================= VALIDASI ================= */
 
-        alertError("Data checkpoint belum dimuat.");
+        if (!checkpointData) {
 
-        btn.disabled = false;
+            alertError("Checkpoint belum dimuat.");
 
-        return;
+            return;
 
-    }
+        }
 
-    if(currentLat == null || currentLng == null){
+        if (currentLat == null || currentLng == null) {
 
-        alertError("GPS belum siap.");
+            alertError("GPS belum siap.");
 
-        btn.disabled = false;
+            return;
 
-        return;
+        }
 
-    }
+        if (currentDistance > Number(checkpointData.radius)) {
 
-    if(currentDistance > Number(checkpointData.radius)){
+            alertError("Anda berada di luar radius checkpoint.");
 
-        alertError("Anda berada di luar radius checkpoint.");
+            return;
 
-        btn.disabled = false;
+        }
 
-        return;
+        const situasi =
+        document.getElementById("situasi").value;
 
-    }
+        const deskripsi =
+        document.getElementById("deskripsi").value.trim();
 
-    /* ================= AMBIL FORM ================= */
+        if (situasi !== "K10" && deskripsi === "") {
 
-    const situasi =
-    document.getElementById("situasi").value;
+            alertError("Deskripsi wajib diisi.");
 
-    const deskripsi =
-    document.getElementById("deskripsi").value.trim();
+            return;
 
-    /* ================= VALIDASI DESKRIPSI ================= */
+        }
 
-    if(situasi != "K10" && deskripsi == ""){
+        /* ================= PAYLOAD ================= */
 
-        alertError("Deskripsi temuan wajib diisi.");
+        const payload = {
 
-        btn.disabled = false;
+            action: "submitPatroli",
 
-        return;
+            nama: getNama(),
 
-    }
+            nrp: getNRP(),
 
-    /* ================= PAYLOAD ================= */
+            checkpointId: checkpointData.checkpointId,
 
-    const payload = {
+            situasi: situasi,
 
-        action : "submitPatroli",
+            deskripsi: deskripsi,
 
-        userid : getUserid(),
+            latitude: currentLat,
 
-        checkpointId : checkpointData.checkpointId,
+            longitude: currentLng,
 
-        lokasi : checkpointData.lokasi,
+            jarak: currentDistance
 
-        wilayah : checkpointData.wilayah,
+        };
 
-        checkpoint : checkpointData.checkpoint,
+        console.log("PAYLOAD");
 
-        situasi : situasi,
+        console.log(payload);
 
-        deskripsi : deskripsi,
+        showLoading();
 
-        latitude : currentLat,
+        const response = await fetch(API, {
 
-        longitude : currentLng,
+            method: "POST",
 
-        jarak : currentDistance
+            headers: {
 
-    };
+                "Content-Type": "application/json"
 
-    console.log("========== PAYLOAD ==========");
-    console.log(payload);
-
-    showLoading();
-
-    try{
-
-        const response = await fetch(API,{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"application/json"
             },
 
-            body:JSON.stringify(payload)
+            body: JSON.stringify(payload)
 
         });
 
         const result = await response.json();
 
-        console.log("========== RESPONSE ==========");
         console.log(result);
 
         hideLoading();
 
-        if(result.status=="success"){
+        if (result.status == "success") {
 
             alertSuccess(result.pesan);
 
-            setTimeout(()=>{
+            setTimeout(function () {
 
                 location.reload();
 
-            },1000);
+            }, 1000);
 
         }
 
-        else{
+        else {
 
             alertError(result.pesan);
 
@@ -151,17 +134,17 @@ async function submitPatroli(){
 
     }
 
-    catch(error){
+    catch (err) {
 
-        console.error(error);
+        console.error(err);
 
         hideLoading();
 
-        alertError("Gagal terhubung ke server.");
+        alertError("Gagal menghubungi server.");
 
     }
 
-    finally{
+    finally {
 
         btn.disabled = false;
 
