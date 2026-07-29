@@ -1,35 +1,37 @@
+/* =====================================
+   APP
+===================================== */
+
 console.log("APP BERHASIL DIMUAT");
 
-window.onload = function () {
+window.onload = async function () {
 
     console.log("window.onload");
 
-    checkLogin();
+    if (!checkLogin()) {
 
-    console.log("login OK");
+        console.log("Belum login");
 
-    loadCheckpoint();
+        return;
 
-    console.log("checkpoint dipanggil");
+    }
 
-    initSubmit();
+    console.log("Login OK");
 
-    console.log("submit init");
+    const ok = await loadCheckpoint();
 
-};
+    console.log("loadCheckpoint =", ok);
 
-window.onload=async function(){
+    if (!ok) return;
 
-    if(!checkLogin()) return;
-
-    const ok=await loadCheckpoint();
-
-    if(!ok) return;
-
-    initForm();
+    console.log("Checkpoint OK");
 
     mulaiGPS();
 
+    console.log("GPS dimulai");
+
     initSubmit();
 
-}
+    console.log("Submit siap");
+
+};
