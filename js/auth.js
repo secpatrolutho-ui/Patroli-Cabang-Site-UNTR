@@ -1,37 +1,19 @@
-/* =====================================
-   AUTH MODULE
-===================================== */
-
 function checkLogin(){
 
-    const userId = localStorage.getItem("userId");
+    const nama = localStorage.getItem("nama");
+    const nrp = localStorage.getItem("nrp");
 
-    if(!userId){
+    if(!nama || !nrp){
 
         location.href="login.html";
-        return;
+        return false;
 
     }
 
-    document.getElementById("nama").innerHTML=getNama();
+    document.getElementById("nama").textContent=nama;
+    document.getElementById("nrp").textContent=nrp;
 
-    document.getElementById("nrp").innerHTML=getNRP();
-
-}
-
-function logout(){
-
-    localStorage.clear();
-
-    location.href="login.html";
-
-}
-
-/* ========================= */
-
-function getUserId(){
-
-    return localStorage.getItem("userId");
+    return true;
 
 }
 
@@ -47,8 +29,10 @@ function getNRP(){
 
 }
 
-function getRole(){
+function logout(){
 
-    return localStorage.getItem("role");
+    localStorage.clear();
+
+    location.href="login.html";
 
 }
