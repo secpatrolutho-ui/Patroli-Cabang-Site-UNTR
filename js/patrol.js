@@ -2,12 +2,12 @@
    MAIN CONTROLLER
 ===================================== */
 
-window.onload=async()=>{
+window.onload = function(){
 
-    cekLogin();
+    checkLogin();
 
-    await loadCheckpoint();
+    loadCheckpoint();
 
-    initsubmit();
+    initSubmit();
 
 }
