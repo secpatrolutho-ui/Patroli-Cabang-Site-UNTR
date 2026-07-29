@@ -6,9 +6,14 @@ function initSubmit() {
 
     const btn = document.getElementById("btnSubmit");
 
-    if (!btn) return;
+    if (!btn) {
+        console.error("Tombol Submit tidak ditemukan.");
+        return;
+    }
 
     btn.addEventListener("click", submitPatroli);
+
+    console.log("Submit Module Ready");
 
 }
 
@@ -22,42 +27,36 @@ async function submitPatroli() {
 
     btn.disabled = true;
 
+    showLoading();
+
     try {
+
+        console.log("======================================");
+        console.log("PATROLI DIGITAL - SUBMIT");
+        console.log("======================================");
 
         /* ================= VALIDASI ================= */
 
         if (!checkpointData) {
-
-            alertError("Checkpoint belum dimuat.");
-            return;
-
+            throw new Error("Checkpoint belum dimuat.");
         }
 
         if (currentLat == null || currentLng == null) {
-
-            alertError("GPS belum siap.");
-            return;
-
+            throw new Error("GPS belum siap.");
         }
 
         if (currentDistance > Number(checkpointData.radius)) {
-
-            alertError("Anda berada di luar radius checkpoint.");
-            return;
-
+            throw new Error("Anda berada di luar radius checkpoint.");
         }
 
         const situasi =
-        document.getElementById("situasi").value;
+            document.getElementById("situasi").value;
 
         const deskripsi =
-        document.getElementById("deskripsi").value.trim();
+            document.getElementById("deskripsi").value.trim();
 
         if (situasi !== "K10" && deskripsi === "") {
-
-            alertError("Deskripsi wajib diisi.");
-            return;
-
+            throw new Error("Deskripsi wajib diisi.");
         }
 
         /* ================= PAYLOAD ================= */
@@ -90,87 +89,82 @@ async function submitPatroli() {
 
         };
 
-        console.log("================================");
-        console.log("SUBMIT PATROLI");
-        console.log("================================");
-        console.log("API :", API);
+        console.log("========== API ==========");
+        console.log(API);
+
+        console.log("========== PAYLOAD ==========");
         console.table(payload);
 
-        showLoading();
+        /* ================= FETCH ================= */
 
         const response = await fetch(API, {
 
             method: "POST",
 
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "text/plain;charset=UTF-8"
             },
 
             body: JSON.stringify(payload)
 
         });
 
+        console.log("========== RESPONSE ==========");
+        console.log(response);
+
         console.log("HTTP STATUS :", response.status);
+        console.log("STATUS TEXT :", response.statusText);
+        console.log("OK :", response.ok);
+        console.log("TYPE :", response.type);
 
         const raw = await response.text();
 
-        console.log("RAW RESPONSE :");
+        console.log("========== RAW RESPONSE ==========");
         console.log(raw);
 
         let result;
 
-        try{
+        try {
 
             result = JSON.parse(raw);
 
+        } catch (e) {
+
+            throw new Error(
+                "Response bukan JSON.\n\n" + raw
+            );
+
         }
 
-        catch(e){
-
-            throw new Error("Response bukan JSON.\n\n" + raw);
-
-        }
-
-        console.log("HASIL JSON");
-        console.log(result);
+        console.log("========== JSON ==========");
+        console.table(result);
 
         hideLoading();
 
-        if(result.status=="success"){
+        if (result.status === "success") {
 
-            alertSuccess(
+            alertSuccess(result.pesan);
 
-                "✅ " + result.pesan
-
-            );
-
-            setTimeout(function(){
+            setTimeout(() => {
 
                 location.reload();
 
-            },1000);
+            }, 1000);
 
-        }
+        } else {
 
-        else{
-
-            alertError(
-
-                "❌ " + result.pesan
-
-            );
+            alertError(result.pesan);
 
         }
 
     }
 
-    catch(err){
-
-        console.error("ERROR SUBMIT");
-
-        console.error(err);
+    catch (err) {
 
         hideLoading();
+
+        console.log("========== ERROR ==========");
+        console.error(err);
 
         alertError(
 
@@ -182,7 +176,7 @@ async function submitPatroli() {
 
     }
 
-    finally{
+    finally {
 
         btn.disabled = false;
 
