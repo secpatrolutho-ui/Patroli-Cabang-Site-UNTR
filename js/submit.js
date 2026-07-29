@@ -29,7 +29,6 @@ async function submitPatroli() {
         if (!checkpointData) {
 
             alertError("Checkpoint belum dimuat.");
-
             return;
 
         }
@@ -37,7 +36,6 @@ async function submitPatroli() {
         if (currentLat == null || currentLng == null) {
 
             alertError("GPS belum siap.");
-
             return;
 
         }
@@ -45,7 +43,6 @@ async function submitPatroli() {
         if (currentDistance > Number(checkpointData.radius)) {
 
             alertError("Anda berada di luar radius checkpoint.");
-
             return;
 
         }
@@ -59,7 +56,6 @@ async function submitPatroli() {
         if (situasi !== "K10" && deskripsi === "") {
 
             alertError("Deskripsi wajib diisi.");
-
             return;
 
         }
@@ -68,37 +64,37 @@ async function submitPatroli() {
 
         const payload = {
 
-            const payload = {
+            action: "submitPatroli",
 
-            action:"submitPatroli",
+            nama: getNama(),
 
-            nama:getNama(),
+            nrp: getNRP(),
 
-            nrp:getNRP(),
+            checkpointId: checkpointData.checkpointId,
 
-            checkpointId:checkpointData.checkpointId,
+            lokasi: checkpointData.lokasi,
 
-            lokasi:checkpointData.lokasi,
+            wilayah: checkpointData.wilayah,
 
-            wilayah:checkpointData.wilayah,
+            checkpoint: checkpointData.checkpoint,
 
-            checkpoint:checkpointData.checkpoint,
+            situasi: situasi,
 
-            situasi:situasi,
+            deskripsi: deskripsi,
 
-            deskripsi:deskripsi,
+            latitude: currentLat,
 
-            latitude:currentLat,
+            longitude: currentLng,
 
-            longitude:currentLng,
-
-            jarak:currentDistance
+            jarak: currentDistance
 
         };
 
-        console.log("PAYLOAD");
-
-        console.log(payload);
+        console.log("================================");
+        console.log("SUBMIT PATROLI");
+        console.log("================================");
+        console.log("API :", API);
+        console.table(payload);
 
         showLoading();
 
@@ -107,52 +103,86 @@ async function submitPatroli() {
             method: "POST",
 
             headers: {
-
                 "Content-Type": "application/json"
-
             },
 
             body: JSON.stringify(payload)
 
         });
 
-        const result = await response.json();
+        console.log("HTTP STATUS :", response.status);
 
+        const raw = await response.text();
+
+        console.log("RAW RESPONSE :");
+        console.log(raw);
+
+        let result;
+
+        try{
+
+            result = JSON.parse(raw);
+
+        }
+
+        catch(e){
+
+            throw new Error("Response bukan JSON.\n\n" + raw);
+
+        }
+
+        console.log("HASIL JSON");
         console.log(result);
 
         hideLoading();
 
-        if (result.status == "success") {
+        if(result.status=="success"){
 
-            alertSuccess(result.pesan);
+            alertSuccess(
 
-            setTimeout(function () {
+                "✅ " + result.pesan
+
+            );
+
+            setTimeout(function(){
 
                 location.reload();
 
-            }, 1000);
+            },1000);
 
         }
 
-        else {
+        else{
 
-            alertError(result.pesan);
+            alertError(
+
+                "❌ " + result.pesan
+
+            );
 
         }
 
     }
 
-    catch (err) {
+    catch(err){
+
+        console.error("ERROR SUBMIT");
 
         console.error(err);
 
         hideLoading();
 
-        alertError("Gagal menghubungi server.");
+        alertError(
+
+            "Submit gagal.\n\n" +
+
+            err.message
+
+        );
 
     }
 
-    finally {
+    finally{
 
         btn.disabled = false;
 
