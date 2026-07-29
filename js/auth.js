@@ -1,26 +1,21 @@
 /* =====================================
-   AUTH
+   AUTH MODULE
 ===================================== */
 
-function cekLogin(){
+function checkLogin(){
 
-    const nama =
-    localStorage.getItem("nama");
+    const userId = localStorage.getItem("userId");
 
-    const nrp =
-    localStorage.getItem("nrp");
-
-    if(!nama || !nrp){
+    if(!userId){
 
         location.href="login.html";
-
         return;
 
     }
 
-    document.getElementById("nama").innerHTML=nama;
+    document.getElementById("nama").innerHTML=getNama();
 
-    document.getElementById("nrp").innerHTML=nrp;
+    document.getElementById("nrp").innerHTML=getNRP();
 
 }
 
@@ -29,6 +24,14 @@ function logout(){
     localStorage.clear();
 
     location.href="login.html";
+
+}
+
+/* ========================= */
+
+function getUserId(){
+
+    return localStorage.getItem("userId");
 
 }
 
@@ -41,5 +44,11 @@ function getNama(){
 function getNRP(){
 
     return localStorage.getItem("nrp");
+
+}
+
+function getRole(){
+
+    return localStorage.getItem("role");
 
 }
