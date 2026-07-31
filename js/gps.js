@@ -58,6 +58,37 @@ function updateGPS(position){
 
     currentLng = position.coords.longitude;
 
+/* ==========================================
+   SMART TRACK RECORDER
+========================================== */
+
+if(isPatrolActive()){
+
+    addTrackPoint({
+
+        patrolId:
+        localStorage.getItem("patrolId"),
+
+        lat: currentLat,
+
+        lng: currentLng,
+
+        accuracy:
+        position.coords.accuracy || 999,
+
+        speed:
+        position.coords.speed || 0,
+
+        heading:
+        position.coords.heading || 0,
+
+        timestamp:
+        Date.now()
+
+    });
+
+}  
+
     const cp = getCheckpoint();
 
     if(!cp){
