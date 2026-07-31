@@ -26,6 +26,20 @@ async function submitPatroli() {
     const btn = document.getElementById("btnSubmit");
 
     btn.disabled = true;
+   
+    /* ================= SESSION ================= */
+
+if(!isPatrolActive()){
+
+    alertError(
+        "Silakan START PATROL terlebih dahulu."
+    );
+
+    btn.disabled = false;
+
+    return;
+
+}   
 
     showLoading();
 
@@ -64,6 +78,9 @@ async function submitPatroli() {
         const payload = {
 
             action: "submitPatroli",
+
+            patrolId:
+            localStorage.getItem("patrolId"),
 
             nama: getNama(),
 
