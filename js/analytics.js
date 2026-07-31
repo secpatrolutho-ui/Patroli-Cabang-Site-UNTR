@@ -10,14 +10,12 @@
 function calculateTrackDistance(points){
 
     if(!points || points.length < 2){
-
         return 0;
-
     }
 
     let total = 0;
 
-    for(let i = 1; i < points.length; i++){
+    for(let i=1;i<points.length;i++){
 
         total += calculateDistance(
 
@@ -36,15 +34,13 @@ function calculateTrackDistance(points){
 }
 
 /* ==========================================
-   DURATION
+   DURATION (SECOND)
 ========================================== */
 
 function calculateTrackDuration(points){
 
     if(!points || points.length < 2){
-
         return 0;
-
     }
 
     return (
@@ -64,18 +60,20 @@ function calculateTrackDuration(points){
 function calculateAverageSpeed(points){
 
     const distance =
-    calculateTrackDistance(points);
+
+        calculateTrackDistance(points);
 
     const duration =
-    calculateTrackDuration(points);
 
-    if(duration <= 0){
+        calculateTrackDuration(points);
+
+    if(duration<=0){
 
         return 0;
 
     }
 
-    return distance / duration;
+    return distance/duration;
 
 }
 
@@ -87,11 +85,11 @@ function calculateMaxSpeed(points){
 
     let max = 0;
 
-    points.forEach(p=>{
+    points.forEach(function(p){
 
-        if(p.speed > max){
+        if(Number(p.speed)>max){
 
-            max = p.speed;
+            max = Number(p.speed);
 
         }
 
@@ -102,7 +100,7 @@ function calculateMaxSpeed(points){
 }
 
 /* ==========================================
-   SUMMARY
+   SUMMARY OBJECT
 ========================================== */
 
 function getTrackSummary(){
@@ -112,44 +110,24 @@ function getTrackSummary(){
     return{
 
         patrolId:
-
             localStorage.getItem("patrolId"),
 
         totalPoint:
-
             points.length,
 
         totalDistance:
-
             calculateTrackDistance(points),
 
         duration:
-
             calculateTrackDuration(points),
 
         averageSpeed:
-
             calculateAverageSpeed(points),
 
         maxSpeed:
-
             calculateMaxSpeed(points)
 
     };
-
-}
-
-/* ==========================================
-   DEBUG
-========================================== */
-
-function previewSummary(){
-
-    console.table(
-
-        getTrackSummary()
-
-    );
 
 }
 
@@ -165,38 +143,34 @@ function buildSummaryPayload(){
 
         action:"uploadSummary",
 
-        patrolId: summary.patrolId,
+        patrolId:
+            summary.patrolId,
 
-        nama: getNama(),
+        nama:
+            getNama(),
 
-        nrp: getNRP(),
+        nrp:
+            getNRP(),
 
         startTime:
-
             localStorage.getItem("patrolStart"),
 
         finishTime:
-
             Date.now(),
 
         duration:
-
-            summary.duration,
+            Number(summary.duration.toFixed(0)),
 
         totalDistance:
-
             Number(summary.totalDistance.toFixed(2)),
 
         averageSpeed:
-
             Number(summary.averageSpeed.toFixed(2)),
 
         maxSpeed:
-
             Number(summary.maxSpeed.toFixed(2)),
 
         totalPoint:
-
             summary.totalPoint
 
     };
@@ -231,11 +205,13 @@ function previewSummaryPayload(){
 
 async function uploadSummary(){
 
+    const payload = buildSummaryPayload();
+
     try{
 
-        const payload = buildSummaryPayload();
-
+        console.log("=================================");
         console.log("UPLOAD SUMMARY");
+        console.log("=================================");
 
         console.table(payload);
 
@@ -252,89 +228,10 @@ async function uploadSummary(){
         });
 
         const result =
-        await response.json();
+
+            await response.json();
 
         console.log(result);
-
-        return result;
-
-    }
-
-    catch(err){
-
-        console.error(err);
-
-        return{
-
-            status:"error",
-
-            pesan:"Upload Summary gagal."
-
-        };
-
-    }
-
-}
-
-/* ==========================================
-   BUILD SUMMARY PAYLOAD
-========================================== */
-
-function buildSummaryPayload(){
-
-    return{
-
-        action:"uploadSummary",
-
-        patrolId:
-        localStorage.getItem("patrolId"),
-
-        nama:getNama(),
-
-        nrp:getNRP(),
-
-        startTime:
-        localStorage.getItem("patrolStart"),
-
-        finishTime:
-        Date.now(),
-
-        totalPoint:
-        totalTrackPoint(),
-
-        analytics:
-        calculateAnalytics()
-
-    };
-
-}
-
-/* ==========================================
-   UPLOAD SUMMARY
-========================================== */
-
-async function uploadSummary(){
-
-    const payload = buildSummaryPayload();
-
-    try{
-
-        console.log("UPLOAD SUMMARY...");
-        console.log(payload);
-
-        const response = await fetch(API,{
-
-            method:"POST",
-
-            headers:{
-                "Content-Type":"text/plain;charset=utf-8"
-            },
-
-            body:JSON.stringify(payload)
-
-        });
-
-        const result = await response.json();
 
         if(result.status!="success"){
 
@@ -369,5 +266,19 @@ async function uploadSummary(){
         };
 
     }
+
+}
+
+/* ==========================================
+   DEBUG SUMMARY
+========================================== */
+
+function previewSummary(){
+
+    console.table(
+
+        getTrackSummary()
+
+    );
 
 }
