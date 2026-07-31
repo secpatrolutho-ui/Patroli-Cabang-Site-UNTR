@@ -143,6 +143,12 @@ async function finishPatrol(){
 
         }
 
+       if(totalTrackPoint()>0){
+
+          await uploadTrack();
+
+        }
+
         localStorage.removeItem("patrolId");
 
         localStorage.removeItem("patrolStatus");
