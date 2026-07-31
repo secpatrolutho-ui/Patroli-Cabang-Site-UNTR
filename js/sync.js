@@ -17,26 +17,20 @@ function startAutoSync(){
 }
 
 /* ==========================================
-   SYNC
+   SYNC OFFLINE QUEUE
 ========================================== */
 
 async function syncOfflineQueue(){
 
-    if(syncRunning){
+    if(syncRunning) return;
 
-        return;
-
-    }
-
-    if(!navigator.onLine){
-
-        return;
-
-    }
+    if(!navigator.onLine) return;
 
     const queue = getOfflineQueue();
 
     if(queue.length==0){
+
+        updateSyncStatus();
 
         return;
 
@@ -44,9 +38,7 @@ async function syncOfflineQueue(){
 
     syncRunning = true;
 
-    console.log("AUTO SYNC");
-
-    console.log(queue.length);
+    console.log("AUTO SYNC :", queue.length);
 
     while(queue.length>0){
 
@@ -66,9 +58,7 @@ async function syncOfflineQueue(){
 
             });
 
-            const result =
-
-                await response.json();
+            const result = await response.json();
 
             if(result.status=="success"){
 
@@ -77,26 +67,19 @@ async function syncOfflineQueue(){
                 saveOfflineQueue(queue);
 
                 updateSyncStatus();
-               
+
                 console.log(
-
                     "SYNC SUCCESS",
-
                     queue.length
-
                 );
 
-            }
-
-            else{
+            }else{
 
                 break;
 
             }
 
-        }
-
-        catch(err){
+        }catch(err){
 
             console.error(err);
 
@@ -105,6 +88,10 @@ async function syncOfflineQueue(){
         }
 
     }
+
+    syncRunning = false;
+
+}
 
 /* ==========================================
    UPDATE SYNC STATUS
@@ -124,24 +111,16 @@ function updateSyncStatus(){
 
     if(total==0){
 
-        el.innerHTML="🟢 Semua data tersinkron";
+        el.innerHTML =
+        "🟢 Semua data tersinkron";
 
-    }
+    }else{
 
-    else{
-
-        el.innerHTML=
-
-        "🟠 Menunggu sinkronisasi ("+
-
-        total+
-
+        el.innerHTML =
+        "🟠 Menunggu sinkronisasi (" +
+        total +
         ")";
 
     }
-
-}   
-
-    syncRunning = false;
 
 }
