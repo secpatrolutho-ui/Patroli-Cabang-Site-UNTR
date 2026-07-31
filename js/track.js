@@ -208,3 +208,48 @@ function showTrackBuffer(){
     console.table(trackBuffer);
 
 }
+
+/* ==========================================
+   BUILD PAYLOAD
+========================================== */
+
+function buildTrackPayload(){
+
+    return{
+
+        action:"uploadTrack",
+
+        patrolId:
+        localStorage.getItem("patrolId"),
+
+        nama:getNama(),
+
+        nrp:getNRP(),
+
+        points:getTrackBuffer()
+
+    };
+
+}
+
+/* ==========================================
+   DEBUG PAYLOAD
+========================================== */
+
+function previewTrackPayload(){
+
+    console.log(
+
+        JSON.stringify(
+
+            buildTrackPayload(),
+
+            null,
+
+            2
+
+        )
+
+    );
+
+}
