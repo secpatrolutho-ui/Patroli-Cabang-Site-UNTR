@@ -224,3 +224,54 @@ function previewSummaryPayload(){
     );
 
 }
+
+/* ==========================================
+   UPLOAD SUMMARY
+========================================== */
+
+async function uploadSummary(){
+
+    try{
+
+        const payload = buildSummaryPayload();
+
+        console.log("UPLOAD SUMMARY");
+
+        console.table(payload);
+
+        const response = await fetch(API,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+
+            body:JSON.stringify(payload)
+
+        });
+
+        const result =
+        await response.json();
+
+        console.log(result);
+
+        return result;
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        return{
+
+            status:"error",
+
+            pesan:"Upload Summary gagal."
+
+        };
+
+    }
+
+}
