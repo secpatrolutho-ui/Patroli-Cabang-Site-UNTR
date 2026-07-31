@@ -3,27 +3,31 @@
    APP CONTROLLER
 ========================================== */
 
-alert("APP.JS BERHASIL DIMUAT");
 window.addEventListener("load", initApp);
 
 async function initApp(){
 
-    console.log("APP START");
+    console.log("================================");
+    console.log("SPMS START");
+    console.log("================================");
 
-    // 1. Cek Login
+    // 1. Login
     if(!checkLogin()) return;
 
-    // 2. Ambil Data Checkpoint
+    // 2. Load Patrol Session
+    loadSession();
+
+    // 3. Load Checkpoint
     const ok = await loadCheckpoint();
 
     if(!ok) return;
 
-    // 3. Aktifkan GPS
+    // 4. GPS
     mulaiGPS();
 
-    // 4. Aktifkan Tombol Submit
+    // 5. Submit
     initSubmit();
 
-    console.log("APP READY");
+    console.log("SPMS READY");
 
 }
