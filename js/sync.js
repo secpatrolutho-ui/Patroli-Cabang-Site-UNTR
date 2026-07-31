@@ -102,6 +102,42 @@ async function syncOfflineQueue(){
 
     }
 
+/* ==========================================
+   UPDATE SYNC STATUS
+========================================== */
+
+function updateSyncStatus(){
+
+    const el = document.getElementById("syncStatus");
+
+    if(!el){
+
+        return;
+
+    }
+
+    const total = totalOfflineQueue();
+
+    if(total==0){
+
+        el.innerHTML="🟢 Semua data tersinkron";
+
+    }
+
+    else{
+
+        el.innerHTML=
+
+        "🟠 Menunggu sinkronisasi ("+
+
+        total+
+
+        ")";
+
+    }
+
+}   
+
     syncRunning = false;
 
 }
