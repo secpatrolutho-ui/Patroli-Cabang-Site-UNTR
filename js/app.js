@@ -17,15 +17,18 @@ async function initApp(){
     // 2. Load Patrol Session
     loadSession();
 
-    // 3. Load Checkpoint
+    // 3. Auto Sync Engine
+    startAutoSync();
+
+    // 4. Load Checkpoint
     const ok = await loadCheckpoint();
 
     if(!ok) return;
 
-    // 4. GPS
+    // 5. GPS
     mulaiGPS();
 
-    // 5. Submit
+    // 6. Submit
     initSubmit();
 
     console.log("SPMS READY");
