@@ -62,38 +62,33 @@ function updateGPS(position){
    SMART TRACK RECORDER
 ========================================== */
 
-if(isPatrolActive()){
+if (isPatrolActive()) {
 
     const now = new Date();
-   
+
     addTrackPoint({
 
-        patrolId:
-        localStorage.getItem("patrolId"),
+        patrolId: localStorage.getItem("patrolId"),
 
         lat: currentLat,
 
         lng: currentLng,
 
-        accuracy:
-        position.coords.accuracy || 999,
+        accuracy: position.coords.accuracy || 999,
 
-        speed:
-        position.coords.speed || 0,
+        speed: position.coords.speed || 0,
 
-        heading:
-        position.coords.heading || 0,
+        heading: position.coords.heading || 0,
 
-        timestamp:
-        Date.now(),
+        timestamp: Date.now(),
 
         deviceTime:
             now.getFullYear() + "-" +
-            String(now.getMonth()+1).padStart(2,"0") + "-" +
-            String(now.getDate()).padStart(2,"0") + " " +
-            String(now.getHours()).padStart(2,"0") + ":" +
-            String(now.getMinutes()).padStart(2,"0") + ":" +
-            String(now.getSeconds()).padStart(2,"0")
+            String(now.getMonth() + 1).padStart(2, "0") + "-" +
+            String(now.getDate()).padStart(2, "0") + " " +
+            String(now.getHours()).padStart(2, "0") + ":" +
+            String(now.getMinutes()).padStart(2, "0") + ":" +
+            String(now.getSeconds()).padStart(2, "0")
 
     });
 
