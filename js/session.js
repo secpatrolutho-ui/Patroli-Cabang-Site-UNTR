@@ -187,37 +187,16 @@ async function finishPatrol(){
         console.log("FINISH PATROL");
         console.log("=================================");
 
-        /* =============================
-           SUMMARY
-        ============================= */
+        /* ======================================
+           STEP 1
+           Upload TRACK
+        ====================================== */
 
-        console.log("Upload Summary...");
+        console.log("UPLOAD TRACK");
 
-        const summaryResult =
-        await uploadSummary();
-
-        console.log(summaryResult);
-
-        /* =============================
-           TRACK
-        ============================= */
-
-        console.log("Upload Track...");
-
-        const trackResult =
-        await uploadTrack();
+        const trackResult = await uploadTrack();
 
         console.log(trackResult);
-
-        /* =============================
-           VALIDASI
-        ============================= */
-
-        if(summaryResult.status!="success"){
-
-            throw new Error(summaryResult.pesan);
-
-        }
 
         if(trackResult.status!="success"){
 
@@ -225,15 +204,29 @@ async function finishPatrol(){
 
         }
 
-        /* =============================
-           CLEAR BUFFER
-        ============================= */
+        /* ======================================
+           STEP 2
+           Upload SUMMARY
+        ====================================== */
+
+        console.log("UPLOAD SUMMARY");
+
+        const summaryResult = await uploadSummary();
+
+        console.log(summaryResult);
+
+        if(summaryResult.status!="success"){
+
+            throw new Error(summaryResult.pesan);
+
+        }
+
+        /* ======================================
+           STEP 3
+           CLEAR MEMORY
+        ====================================== */
 
         clearTrackBuffer();
-
-        /* =============================
-           CLEAR SESSION
-        ============================= */
 
         localStorage.removeItem("patrolId");
 
@@ -247,7 +240,7 @@ async function finishPatrol(){
 
         alertSuccess(
 
-            "Patroli berhasil diselesaikan."
+            "✅ Patroli berhasil diselesaikan"
 
         );
 
@@ -261,11 +254,13 @@ async function finishPatrol(){
 
     catch(err){
 
-        hideLoading();
-
         console.error(err);
 
+        hideLoading();
+
         alertError(
+
+            "Finish Patrol gagal\n\n"+
 
             err.message
 
