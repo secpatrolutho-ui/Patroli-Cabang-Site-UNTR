@@ -10,6 +10,8 @@ let syncRunning = false;
 
 function startAutoSync(){
 
+    updateSyncStatus();
+
     setInterval(syncOfflineQueue,15000);
 
 }
@@ -74,6 +76,8 @@ async function syncOfflineQueue(){
 
                 saveOfflineQueue(queue);
 
+                updateSyncStatus();
+               
                 console.log(
 
                     "SYNC SUCCESS",
