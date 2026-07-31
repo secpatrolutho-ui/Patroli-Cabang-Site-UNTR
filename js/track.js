@@ -249,7 +249,71 @@ function previewTrackPayload(){
             2
 
         )
+       
 
     );
+
+}
+
+/* ==========================================
+   UPLOAD TRACK
+========================================== */
+
+async function uploadTrack(){
+
+    const payload = buildTrackPayload();
+
+    try{
+
+        console.log("UPLOAD TRACK...");
+        console.log(payload);
+
+        const response = await fetch(API,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+
+            body:JSON.stringify(payload)
+
+        });
+
+        const result = await response.json();
+
+        if(result.status!="success"){
+
+            pushOffline(payload);
+
+            return{
+
+                status:"offline",
+
+                pesan:"Track disimpan ke Offline Queue."
+
+            };
+
+        }
+
+        return result;
+
+    }
+
+    catch(err){
+
+        console.error(err);
+
+        pushOffline(payload);
+
+        return{
+
+            status:"offline",
+
+            pesan:"Track disimpan ke Offline Queue."
+
+        };
+
+    }
 
 }
