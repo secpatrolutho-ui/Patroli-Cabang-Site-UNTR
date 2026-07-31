@@ -152,3 +152,75 @@ function previewSummary(){
     );
 
 }
+
+/* ==========================================
+   BUILD SUMMARY PAYLOAD
+========================================== */
+
+function buildSummaryPayload(){
+
+    const summary = getTrackSummary();
+
+    return{
+
+        action:"uploadSummary",
+
+        patrolId: summary.patrolId,
+
+        nama: getNama(),
+
+        nrp: getNRP(),
+
+        startTime:
+
+            localStorage.getItem("patrolStart"),
+
+        finishTime:
+
+            Date.now(),
+
+        duration:
+
+            summary.duration,
+
+        totalDistance:
+
+            Number(summary.totalDistance.toFixed(2)),
+
+        averageSpeed:
+
+            Number(summary.averageSpeed.toFixed(2)),
+
+        maxSpeed:
+
+            Number(summary.maxSpeed.toFixed(2)),
+
+        totalPoint:
+
+            summary.totalPoint
+
+    };
+
+}
+
+/* ==========================================
+   PREVIEW SUMMARY
+========================================== */
+
+function previewSummaryPayload(){
+
+    console.log(
+
+        JSON.stringify(
+
+            buildSummaryPayload(),
+
+            null,
+
+            2
+
+        )
+
+    );
+
+}
