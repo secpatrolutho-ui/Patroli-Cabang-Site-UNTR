@@ -667,3 +667,39 @@ button{
 }
 
 }
+
+/* ==========================================
+   PATROL SESSION
+========================================== */
+
+.btn-session{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#005BAC;
+
+    color:#fff;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.btn-session:hover{
+
+    opacity:.9;
+
+}
