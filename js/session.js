@@ -104,7 +104,7 @@ async function startPatrol() {
    FINISH PATROL
 ========================================== */
 
-async function finishPatrol(){
+async function finishPatrolOld(){
 
     const payload={
 
@@ -168,6 +168,108 @@ async function finishPatrol(){
         console.error(err);
 
         alertError("Gagal mengakhiri Patrol.");
+
+    }
+
+}
+
+/* ==========================================
+   FINISH PATROL
+========================================== */
+
+async function finishPatrol(){
+
+    try{
+
+        showLoading();
+
+        console.log("=================================");
+        console.log("FINISH PATROL");
+        console.log("=================================");
+
+        /* =============================
+           SUMMARY
+        ============================= */
+
+        console.log("Upload Summary...");
+
+        const summaryResult =
+        await uploadSummary();
+
+        console.log(summaryResult);
+
+        /* =============================
+           TRACK
+        ============================= */
+
+        console.log("Upload Track...");
+
+        const trackResult =
+        await uploadTrack();
+
+        console.log(trackResult);
+
+        /* =============================
+           VALIDASI
+        ============================= */
+
+        if(summaryResult.status!="success"){
+
+            throw new Error(summaryResult.pesan);
+
+        }
+
+        if(trackResult.status!="success"){
+
+            throw new Error(trackResult.pesan);
+
+        }
+
+        /* =============================
+           CLEAR BUFFER
+        ============================= */
+
+        clearTrackBuffer();
+
+        /* =============================
+           CLEAR SESSION
+        ============================= */
+
+        localStorage.removeItem("patrolId");
+
+        localStorage.removeItem("patrolStatus");
+
+        localStorage.removeItem("patrolStart");
+
+        clearInterval(patrolTimer);
+
+        hideLoading();
+
+        alertSuccess(
+
+            "Patroli berhasil diselesaikan."
+
+        );
+
+        setTimeout(function(){
+
+            location.reload();
+
+        },1000);
+
+    }
+
+    catch(err){
+
+        hideLoading();
+
+        console.error(err);
+
+        alertError(
+
+            err.message
+
+        );
 
     }
 
