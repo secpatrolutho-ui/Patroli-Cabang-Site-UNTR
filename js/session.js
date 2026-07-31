@@ -33,35 +33,137 @@ function generatePatrolId() {
    START PATROL
 ========================================== */
 
-function startPatrol() {
+async function startPatrol() {
 
     const patrolId = generatePatrolId();
 
-    localStorage.setItem("patrolId", patrolId);
+    const payload = {
 
-    localStorage.setItem("patrolStatus", "ACTIVE");
+        action: "startPatrol",
 
-    localStorage.setItem("patrolStart", Date.now());
+        patrolId: patrolId,
 
-    loadSession();
+        nama: getNama(),
+
+        nrp: getNRP()
+
+    };
+
+    showLoading();
+
+    try{
+
+        const response = await fetch(API,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+
+            body:JSON.stringify(payload)
+
+        });
+
+        const result = await response.json();
+
+        hideLoading();
+
+        if(result.status!="success"){
+
+            alertError(result.pesan);
+
+            return;
+
+        }
+
+        localStorage.setItem("patrolId",patrolId);
+
+        localStorage.setItem("patrolStatus","ACTIVE");
+
+        localStorage.setItem("patrolStart",Date.now());
+
+        loadSession();
+
+    }
+
+    catch(err){
+
+        hideLoading();
+
+        console.error(err);
+
+        alertError("Gagal memulai Patrol.");
+
+    }
 
 }
+
 
 /* ==========================================
    FINISH PATROL
 ========================================== */
 
-function finishPatrol() {
+async function finishPatrol(){
 
-    localStorage.removeItem("patrolId");
+    const payload={
 
-    localStorage.removeItem("patrolStatus");
+        action:"finishPatrol",
 
-    localStorage.removeItem("patrolStart");
+        patrolId:
+        localStorage.getItem("patrolId")
 
-    clearInterval(patrolTimer);
+    };
 
-    loadSession();
+    showLoading();
+
+    try{
+
+        const response=await fetch(API,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"text/plain;charset=utf-8"
+            },
+
+            body:JSON.stringify(payload)
+
+        });
+
+        const result=await response.json();
+
+        hideLoading();
+
+        if(result.status!="success"){
+
+            alertError(result.pesan);
+
+            return;
+
+        }
+
+        localStorage.removeItem("patrolId");
+
+        localStorage.removeItem("patrolStatus");
+
+        localStorage.removeItem("patrolStart");
+
+        clearInterval(patrolTimer);
+
+        loadSession();
+
+    }
+
+    catch(err){
+
+        hideLoading();
+
+        console.error(err);
+
+        alertError("Gagal mengakhiri Patrol.");
+
+    }
 
 }
 
