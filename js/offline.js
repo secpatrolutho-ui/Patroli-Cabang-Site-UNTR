@@ -60,6 +60,8 @@ function pushOffline(payload){
 
     saveOfflineQueue(queue);
 
+    updateSyncStatus();   
+
     console.log(
 
         "OFFLINE SAVE",
@@ -77,7 +79,7 @@ function pushOffline(payload){
 function clearOfflineQueue(){
 
     saveOfflineQueue([]);
-
+    updateSyncStatus();  
 }
 
 /* ==========================================
