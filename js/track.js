@@ -109,17 +109,25 @@ function addTrackPoint(point){
 
     console.log(
 
-        "TRACK",
+    "TRACK",
 
-        trackBuffer.length,
+    trackBuffer.length,
 
-        "Distance",
+    "|",
 
-        distance.toFixed(1),
+    point.lat.toFixed(6),
 
-        "m"
+    ",",
 
-    );
+    point.lng.toFixed(6),
+
+    "|",
+
+    distance.toFixed(1),
+
+    "m"
+
+);
 
 }
 
