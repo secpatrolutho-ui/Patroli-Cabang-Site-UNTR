@@ -22,7 +22,27 @@ Load Dashboard
 
 </button>
 
-<pre id="result"></pre>
+<div id="card"></div>
+
+<table border="1" width="100%">
+
+<thead>
+
+<tr>
+<th>Waktu</th>
+<th>Nama</th>
+<th>Wilayah</th>
+<th>Checkpoint</th>
+<th>Situasi</th>
+</tr>
+
+</thead>
+
+<tbody id="tableData">
+
+</tbody>
+
+</table>
 
 <script>
 
@@ -31,25 +51,52 @@ const API="https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0geco
 
 async function loadDashboard(){
 
-    try{
+    const response = await fetch(
+      API+"?action=getDashboard"
+    );
 
-        const response = await fetch(
-          API+"?action=getDashboard"
-          );
-
-        const data = await response.json();
+    const result = await response.json();
 
 
-        document.getElementById("result").textContent =
-        JSON.stringify(data,null,4);
+    const data=result.data;
 
 
-    }catch(error){
+    document.getElementById("card").innerHTML=`
 
-        document.getElementById("result").textContent =
-        "ERROR : "+error;
+    <h2>Total Patrol : ${result.total}</h2>
+
+    `;
+
+
+
+    let html="";
+
+
+    for(let i=1;i<data.length;i++){
+
+        html +=`
+
+        <tr>
+
+        <td>${data[i][0]}</td>
+
+        <td>${data[i][1]}</td>
+
+        <td>${data[i][4]}</td>
+
+        <td>${data[i][6]}</td>
+
+        <td>${data[i][7]}</td>
+
+        </tr>
+
+        `;
 
     }
+
+
+    document.getElementById("tableData").innerHTML=html;
+
 
 }
 
