@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="id">
@@ -10,13 +11,19 @@
 
 <title>SPMS Dashboard</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 <style>
 
+
 body{
+
 font-family:Arial, sans-serif;
 background:#0B1F3A;
 margin:0;
 color:white;
+
 }
 
 
@@ -49,6 +56,7 @@ padding:20px;
 }
 
 
+
 .cards{
 
 display:grid;
@@ -72,6 +80,7 @@ box-shadow:0 5px 15px rgba(0,0,0,.2);
 }
 
 
+
 .number{
 
 font-size:35px;
@@ -82,13 +91,32 @@ font-weight:bold;
 
 
 .filter-box,
-.table-box{
+.table-box,
+.chart-box{
 
 background:white;
 color:#333;
 margin-top:25px;
 padding:20px;
 border-radius:15px;
+
+}
+
+
+
+.chart-container{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:20px;
+
+}
+
+
+
+canvas{
+
+max-height:300px;
 
 }
 
@@ -136,89 +164,129 @@ text-align:left;
 
 </style>
 
+
 </head>
+
 
 <body>
 
+
+
 <div class="header">
+
 
 <h1>
 SMART PATROL MANAGEMENT SYSTEM
 </h1>
 
+
 <h3>
 PT UNITED TRACTORS Tbk
 </h3>
+
 
 <button onclick="loadDashboard()">
 LOAD DASHBOARD
 </button>
 
+
 </div>
+
+
+
 
 <div class="container">
 
+
+
+<!-- KPI -->
+
 <div class="cards">
+
 
 <div class="card">
 
 Total Patrol
 
 <div class="number" id="total">
+
 0
+
 </div>
 
 </div>
+
+
 
 <div class="card">
 
 Petugas Aktif
 
 <div class="number" id="petugas">
+
 0
+
 </div>
 
 </div>
+
+
 
 <div class="card">
 
 Checkpoint
 
 <div class="number" id="checkpoint">
+
 0
+
 </div>
 
 </div>
+
+
 
 <div class="card">
 
 Temuan
 
 <div class="number" id="temuan">
+
 0
-</div>
 
 </div>
 
 </div>
+
+
+</div>
+
+
+
+
+
+<!-- FILTER -->
+
 
 <div class="filter-box">
+
 
 <h2>
 Filter Monitoring
 </h2>
 
-<label>
-Tanggal
-</label>
+
+
+Tanggal :
 
 <input type="date" id="tanggal">
 
+
 <br>
 
-<label>
-Wilayah
-</label>
+
+
+Wilayah :
 
 <select id="wilayah">
 
@@ -226,13 +294,15 @@ Wilayah
 Semua Wilayah
 </option>
 
+
 </select>
+
 
 <br>
 
-<label>
-Petugas
-</label>
+
+
+Petugas :
 
 <select id="nama">
 
@@ -240,9 +310,13 @@ Petugas
 Semua Petugas
 </option>
 
+
 </select>
 
+
+
 <br>
+
 
 <button onclick="loadDashboard()">
 
@@ -250,17 +324,95 @@ Terapkan Filter
 
 </button>
 
+
+
 </div>
 
+
+
+
+
+
+
+<!-- GRAFIK -->
+
+
+<div class="chart-container">
+
+
+<div class="chart-box">
+
+
+<h2>
+Trend Patrol Harian
+</h2>
+
+
+<canvas id="chartTanggal"></canvas>
+
+
+</div>
+
+
+
+
+
+<div class="chart-box">
+
+
+<h2>
+Patrol Per Wilayah
+</h2>
+
+
+<canvas id="chartWilayah"></canvas>
+
+
+</div>
+
+
+
+
+
+<div class="chart-box">
+
+
+<h2>
+Situasi Patrol
+</h2>
+
+
+<canvas id="chartSituasi"></canvas>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<!-- TABLE -->
+
+
 <div class="table-box">
+
 
 <h2>
 Riwayat Patroli
 </h2>
 
+
+
 <table>
 
+
 <thead>
+
 
 <tr>
 
@@ -274,26 +426,52 @@ Riwayat Patroli
 
 <th>Situasi</th>
 
+
 </tr>
+
 
 </thead>
 
+
+
 <tbody id="tableData">
+
 
 </tbody>
 
+
+
 </table>
 
-</div>
 
 </div>
+
+
+
+
+</div>
+
+
+
+
+
+
 
 <script>
+
 
 
 const API=
 
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
+
+
+
+let chartTanggal;
+
+let chartWilayah;
+
+let chartSituasi;
 
 
 
@@ -337,20 +515,30 @@ await response.json();
 
 
 
+
 document.getElementById("total").innerHTML=
+
 result.total;
 
 
+
 document.getElementById("petugas").innerHTML=
+
 result.petugas;
 
 
+
 document.getElementById("checkpoint").innerHTML=
+
 result.checkpoint;
 
 
+
 document.getElementById("temuan").innerHTML=
+
 result.temuan;
+
+
 
 
 
@@ -362,22 +550,50 @@ const data=result.data;
 
 
 
+
 for(let i=1;i<data.length;i++){
+
 
 
 html+=`
 
 <tr>
 
-<td>${new Date(data[i][0]).toLocaleString("id-ID")}</td>
 
-<td>${data[i][1]}</td>
+<td>
 
-<td>${data[i][4]}</td>
+${new Date(data[i][0]).toLocaleString("id-ID")}
 
-<td>${data[i][6]}</td>
+</td>
 
-<td>${data[i][7]}</td>
+
+<td>
+
+${data[i][1]}
+
+</td>
+
+
+<td>
+
+${data[i][4]}
+
+</td>
+
+
+<td>
+
+${data[i][6]}
+
+</td>
+
+
+<td>
+
+${data[i][7]}
+
+</td>
+
 
 
 </tr>
@@ -385,11 +601,15 @@ html+=`
 
 `;
 
+
+
 }
 
 
 
-document.getElementById("tableData").innerHTML=html;
+document.getElementById("tableData").innerHTML=
+
+html;
 
 
 
@@ -397,7 +617,13 @@ updateFilter(data);
 
 
 
+renderChart(result);
+
+
+
 }
+
+
 
 
 
@@ -406,15 +632,30 @@ updateFilter(data);
 function updateFilter(data){
 
 
-let wilayah=document.getElementById("wilayah");
 
-let nama=document.getElementById("nama");
+let wilayah=
+
+document.getElementById("wilayah");
 
 
 
-let wilayahSet=new Set();
+let nama=
 
-let namaSet=new Set();
+document.getElementById("nama");
+
+
+
+let wilayahSet=
+
+new Set();
+
+
+
+let namaSet=
+
+new Set();
+
+
 
 
 
@@ -430,29 +671,43 @@ namaSet.add(data[i][1]);
 
 
 
+
+
 wilayah.innerHTML=
+
 '<option value="">Semua Wilayah</option>';
 
+
+
 nama.innerHTML=
+
 '<option value="">Semua Petugas</option>';
+
+
 
 
 
 wilayahSet.forEach(x=>{
 
+
 wilayah.innerHTML+=
 
 `<option value="${x}">${x}</option>`;
+
 
 });
 
 
 
+
+
 namaSet.forEach(x=>{
+
 
 nama.innerHTML+=
 
 `<option value="${x}">${x}</option>`;
+
 
 });
 
@@ -462,8 +717,189 @@ nama.innerHTML+=
 
 
 
+
+
+
+
+
+function renderChart(result){
+
+
+
+if(chartTanggal){
+
+chartTanggal.destroy();
+
+}
+
+
+if(chartWilayah){
+
+chartWilayah.destroy();
+
+}
+
+
+if(chartSituasi){
+
+chartSituasi.destroy();
+
+}
+
+
+
+
+
+
+chartTanggal=
+
+new Chart(
+
+document.getElementById("chartTanggal"),
+
+{
+
+
+type:"bar",
+
+
+data:{
+
+
+labels:
+
+result.chartTanggal.map(x=>x.tanggal),
+
+
+
+datasets:[{
+
+label:"Jumlah Patrol",
+
+
+data:
+
+result.chartTanggal.map(x=>x.jumlah)
+
+
+}]
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+chartWilayah=
+
+new Chart(
+
+document.getElementById("chartWilayah"),
+
+{
+
+
+type:"bar",
+
+
+data:{
+
+
+labels:
+
+result.chartWilayah.map(x=>x.wilayah),
+
+
+
+datasets:[{
+
+label:"Jumlah Patrol",
+
+
+data:
+
+result.chartWilayah.map(x=>x.jumlah)
+
+
+}]
+
+}
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+
+chartSituasi=
+
+new Chart(
+
+document.getElementById("chartSituasi"),
+
+{
+
+
+type:"pie",
+
+
+data:{
+
+
+labels:
+
+result.chartSituasi.map(x=>x.situasi),
+
+
+
+datasets:[{
+
+
+label:"Situasi",
+
+
+data:
+
+result.chartSituasi.map(x=>x.jumlah)
+
+
+}]
+
+}
+
+
+}
+
+);
+
+
+
+}
+
+
+
 </script>
+
+
 
 </body>
 
+
 </html>
+```
