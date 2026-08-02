@@ -461,104 +461,106 @@ Riwayat Patroli
 
 
 
-const API=
-
+```javascript
+const API =
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
 
-
 let chartTanggal;
-
 let chartWilayah;
-
 let chartSituasi;
-
-
 
 
 
 async function loadDashboard(){
 
 
-
-let url=
-
-API+
-
-"?action=getDashboard"
-
-+"&tanggal="+
-
-document.getElementById("tanggal").value
-
-+"&wilayah="+
-
-document.getElementById("wilayah").value
-
-+"&nama="+
-
+let url =
+API +
+"?action=getDashboard" +
+"&tanggal=" +
+document.getElementById("tanggal").value +
+"&wilayah=" +
+document.getElementById("wilayah").value +
+"&nama=" +
 document.getElementById("nama").value;
 
 
 
-
-const response=
-
-await fetch(url);
+const response = await fetch(url);
 
 
+const result = await response.json();
 
-const result=
 
-await response.json();
+console.log(result);
 
 
 
+/* ==========================
+   UPDATE KPI
+========================== */
 
 
-document.getElementById("total").innerHTML=
-
+document.getElementById("total").innerHTML =
 result.total;
 
 
-
-document.getElementById("petugas").innerHTML=
-
+document.getElementById("petugas").innerHTML =
 result.petugas;
 
 
-
-document.getElementById("checkpoint").innerHTML=
-
+document.getElementById("checkpoint").innerHTML =
 result.checkpoint;
 
 
-
-document.getElementById("temuan").innerHTML=
-
+document.getElementById("temuan").innerHTML =
 result.temuan;
 
 
 
 
 
-let html="";
+/* ==========================
+   TABLE
+========================== */
+
+
+let html = "";
+
+
+const data = result.data;
 
 
 
-const data=result.data;
+if(data.length <= 1){
 
-console.log(data);
+
+html = `
+
+<tr>
+
+<td colspan="5" style="text-align:center">
+
+Data patrol tidak ditemukan
+
+</td>
+
+</tr>
+
+`;
+
+
+}
+else{
 
 
 for(let i=1;i<data.length;i++){
 
 
-
-html+=`
+html += `
 
 <tr>
-
 
 <td>
 
@@ -595,30 +597,42 @@ ${data[i][7]}
 </td>
 
 
-
 </tr>
 
 
 `;
 
+}
 
 
 }
 
 
 
-document.getElementById("tableData").innerHTML=html;
+document.getElementById("tableData").innerHTML = html;
+
+
+
+
+/* ==========================
+   CHART
+========================== */
 
 
 renderChart(result);
 
 
-// hanya update dropdown jika belum ada isi
-if(
-document.getElementById("wilayah").options.length <= 1
-){
+
+
+
+/* ==========================
+   FILTER
+========================== */
+
 
 updateFilter(data);
+
+
 
 }
 
@@ -629,6 +643,7 @@ updateFilter(data);
 
 
 function updateFilter(data){
+
 
 
 let wilayah =
@@ -646,6 +661,8 @@ let namaSet = new Set();
 
 
 
+
+
 for(let i=1;i<data.length;i++){
 
 
@@ -658,65 +675,42 @@ namaSet.add(data[i][1]);
 
 
 
-wilayahSet.forEach(x=>{
 
 
-let option=document.createElement("option");
 
-option.value=x;
+// simpan nilai filter sekarang
 
-option.text=x;
+let wilayahValue = wilayah.value;
 
-
-wilayah.appendChild(option);
-
-
-});
+let namaValue = nama.value;
 
 
 
 
-namaSet.forEach(x=>{
 
-
-let option=document.createElement("option");
-
-option.value=x;
-
-option.text=x;
-
-
-nama.appendChild(option);
-
-
-});
-
-
-}
-
-
-
-
-wilayah.innerHTML=
-
+wilayah.innerHTML =
 '<option value="">Semua Wilayah</option>';
 
 
 
-nama.innerHTML=
-
+nama.innerHTML =
 '<option value="">Semua Petugas</option>';
 
 
 
 
 
+
 wilayahSet.forEach(x=>{
 
 
-wilayah.innerHTML+=
+wilayah.innerHTML +=
 
-`<option value="${x}">${x}</option>`;
+`
+
+<option value="${x}">${x}</option>
+
+`;
 
 
 });
@@ -728,12 +722,25 @@ wilayah.innerHTML+=
 namaSet.forEach(x=>{
 
 
-nama.innerHTML+=
+nama.innerHTML +=
 
-`<option value="${x}">${x}</option>`;
+`
+
+<option value="${x}">${x}</option>
+
+`;
 
 
 });
+
+
+
+
+// kembalikan pilihan sebelumnya
+
+wilayah.value = wilayahValue;
+
+nama.value = namaValue;
 
 
 
@@ -775,41 +782,32 @@ chartSituasi.destroy();
 
 
 
-chartTanggal=
-
-new Chart(
+chartTanggal = new Chart(
 
 document.getElementById("chartTanggal"),
 
 {
 
-
 type:"bar",
 
-
 data:{
-
 
 labels:
 
 result.chartTanggal.map(x=>x.tanggal),
 
 
-
 datasets:[{
 
 label:"Jumlah Patrol",
-
 
 data:
 
 result.chartTanggal.map(x=>x.jumlah)
 
-
 }]
 
 }
-
 
 }
 
@@ -821,42 +819,32 @@ result.chartTanggal.map(x=>x.jumlah)
 
 
 
-
-chartWilayah=
-
-new Chart(
+chartWilayah = new Chart(
 
 document.getElementById("chartWilayah"),
 
 {
 
-
 type:"bar",
 
-
 data:{
-
 
 labels:
 
 result.chartWilayah.map(x=>x.wilayah),
 
 
-
 datasets:[{
 
 label:"Jumlah Patrol",
-
 
 data:
 
 result.chartWilayah.map(x=>x.jumlah)
 
-
 }]
 
 }
-
 
 }
 
@@ -869,44 +857,32 @@ result.chartWilayah.map(x=>x.jumlah)
 
 
 
-
-
-chartSituasi=
-
-new Chart(
+chartSituasi = new Chart(
 
 document.getElementById("chartSituasi"),
 
 {
 
-
 type:"pie",
 
-
 data:{
-
 
 labels:
 
 result.chartSituasi.map(x=>x.situasi),
 
 
-
 datasets:[{
 
-
 label:"Situasi",
-
 
 data:
 
 result.chartSituasi.map(x=>x.jumlah)
 
-
 }]
 
 }
-
 
 }
 
@@ -915,6 +891,7 @@ result.chartSituasi.map(x=>x.jumlah)
 
 
 }
+```
 
 
 
