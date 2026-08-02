@@ -548,7 +548,7 @@ let html="";
 
 const data=result.data;
 
-
+console.log(data);
 
 
 for(let i=1;i<data.length;i++){
@@ -607,19 +607,18 @@ ${data[i][7]}
 
 
 
-document.getElementById("tableData").innerHTML=
-
-html;
-
-
-
-updateFilter(data);
-
+document.getElementById("tableData").innerHTML=html;
 
 
 renderChart(result);
 
 
+// hanya update dropdown jika belum ada isi
+if(
+document.getElementById("wilayah").options.length <= 1
+){
+
+updateFilter(data);
 
 }
 
@@ -632,30 +631,18 @@ renderChart(result);
 function updateFilter(data){
 
 
-
-let wilayah=
-
+let wilayah =
 document.getElementById("wilayah");
 
 
-
-let nama=
-
+let nama =
 document.getElementById("nama");
 
 
 
-let wilayahSet=
+let wilayahSet = new Set();
 
-new Set();
-
-
-
-let namaSet=
-
-new Set();
-
-
+let namaSet = new Set();
 
 
 
@@ -669,6 +656,43 @@ namaSet.add(data[i][1]);
 
 }
 
+
+
+wilayahSet.forEach(x=>{
+
+
+let option=document.createElement("option");
+
+option.value=x;
+
+option.text=x;
+
+
+wilayah.appendChild(option);
+
+
+});
+
+
+
+
+namaSet.forEach(x=>{
+
+
+let option=document.createElement("option");
+
+option.value=x;
+
+option.text=x;
+
+
+nama.appendChild(option);
+
+
+});
+
+
+}
 
 
 
