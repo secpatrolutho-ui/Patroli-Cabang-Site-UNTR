@@ -28,31 +28,29 @@ Load Dashboard
 
 const API="https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
+
 async function loadDashboard(){
 
-    const response = await fetch(API,{
+    try{
 
-        method:"POST",
+        const response = await fetch(API);
 
-        headers:{
-            "Content-Type":"text/plain;charset=utf-8"
-        },
+        const data = await response.json();
 
-        body:JSON.stringify({
 
-            action:"getDashboard"
-
-        })
-
-    });
-
-    const data=await response.json();
-
-    document.getElementById("result").textContent=
-
+        document.getElementById("result").textContent =
         JSON.stringify(data,null,4);
 
+
+    }catch(error){
+
+        document.getElementById("result").textContent =
+        "ERROR : "+error;
+
+    }
+
 }
+
 
 </script>
 
