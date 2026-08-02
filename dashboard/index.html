@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="id">
 
 <head>
@@ -9,36 +10,36 @@
 
 <title>SPMS Dashboard</title>
 
-
 <style>
 
 body{
-
 font-family:Arial, sans-serif;
-
 background:#0B1F3A;
-
 margin:0;
-
 color:white;
-
 }
 
 
 .header{
 
 background:#F4C400;
-
 color:#002B5B;
-
 padding:20px;
-
 text-align:center;
-
-font-weight:bold;
 
 }
 
+
+button{
+
+background:#005BAC;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:8px;
+cursor:pointer;
+
+}
 
 
 .container{
@@ -48,33 +49,11 @@ padding:20px;
 }
 
 
-
-button{
-
-background:#005BAC;
-
-color:white;
-
-border:none;
-
-padding:12px 20px;
-
-border-radius:8px;
-
-cursor:pointer;
-
-}
-
-
-
 .cards{
 
 display:grid;
-
 grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
-
 gap:15px;
-
 margin-top:20px;
 
 }
@@ -84,44 +63,44 @@ margin-top:20px;
 .card{
 
 background:white;
-
 color:#002B5B;
-
 padding:20px;
-
 border-radius:15px;
-
 text-align:center;
-
 box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 }
 
 
-
 .number{
 
 font-size:35px;
-
 font-weight:bold;
 
 }
 
 
 
+.filter-box,
 .table-box{
 
 background:white;
-
 color:#333;
-
-margin-top:30px;
-
+margin-top:25px;
 padding:20px;
-
 border-radius:15px;
 
-overflow:auto;
+}
+
+
+
+select,
+input{
+
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+margin:5px;
 
 }
 
@@ -130,7 +109,6 @@ overflow:auto;
 table{
 
 width:100%;
-
 border-collapse:collapse;
 
 }
@@ -140,7 +118,6 @@ border-collapse:collapse;
 th{
 
 background:#F4C400;
-
 color:#002B5B;
 
 }
@@ -150,9 +127,7 @@ color:#002B5B;
 td,th{
 
 padding:12px;
-
 border-bottom:1px solid #ddd;
-
 text-align:left;
 
 }
@@ -161,12 +136,9 @@ text-align:left;
 
 </style>
 
-
 </head>
 
-
 <body>
-
 
 <div class="header">
 
@@ -178,98 +150,115 @@ SMART PATROL MANAGEMENT SYSTEM
 PT UNITED TRACTORS Tbk
 </h3>
 
-
 <button onclick="loadDashboard()">
-
 LOAD DASHBOARD
-
 </button>
-
 
 </div>
 
-
-
 <div class="container">
 
-
 <div class="cards">
-
 
 <div class="card">
 
 Total Patrol
 
 <div class="number" id="total">
-
 0
-
 </div>
 
 </div>
-
-
 
 <div class="card">
 
 Petugas Aktif
 
 <div class="number" id="petugas">
-
 0
-
 </div>
 
 </div>
-
-
 
 <div class="card">
 
 Checkpoint
 
 <div class="number" id="checkpoint">
-
 0
-
 </div>
 
 </div>
-
-
 
 <div class="card">
 
 Temuan
 
 <div class="number" id="temuan">
-
 0
-
 </div>
 
 </div>
 
-
 </div>
 
+<div class="filter-box">
 
+<h2>
+Filter Monitoring
+</h2>
 
+<label>
+Tanggal
+</label>
 
+<input type="date" id="tanggal">
+
+<br>
+
+<label>
+Wilayah
+</label>
+
+<select id="wilayah">
+
+<option value="">
+Semua Wilayah
+</option>
+
+</select>
+
+<br>
+
+<label>
+Petugas
+</label>
+
+<select id="nama">
+
+<option value="">
+Semua Petugas
+</option>
+
+</select>
+
+<br>
+
+<button onclick="loadDashboard()">
+
+Terapkan Filter
+
+</button>
+
+</div>
 
 <div class="table-box">
 
-
 <h2>
-
 Riwayat Patroli
-
 </h2>
 
-
-
 <table>
-
 
 <thead>
 
@@ -285,30 +274,19 @@ Riwayat Patroli
 
 <th>Situasi</th>
 
-
 </tr>
-
 
 </thead>
 
-
 <tbody id="tableData">
-
 
 </tbody>
 
-
 </table>
 
-
-
 </div>
 
-
-
 </div>
-
-
 
 <script>
 
@@ -324,13 +302,31 @@ const API=
 async function loadDashboard(){
 
 
+
+let url=
+
+API+
+
+"?action=getDashboard"
+
++"&tanggal="+
+
+document.getElementById("tanggal").value
+
++"&wilayah="+
+
+document.getElementById("wilayah").value
+
++"&nama="+
+
+document.getElementById("nama").value;
+
+
+
+
 const response=
 
-await fetch(
-
-API+"?action=getDashboard"
-
-);
+await fetch(url);
 
 
 
@@ -341,30 +337,20 @@ await response.json();
 
 
 
-
 document.getElementById("total").innerHTML=
-
 result.total;
 
 
-
 document.getElementById("petugas").innerHTML=
-
 result.petugas;
 
 
-
 document.getElementById("checkpoint").innerHTML=
-
 result.checkpoint;
 
 
-
 document.getElementById("temuan").innerHTML=
-
 result.temuan;
-
-
 
 
 
@@ -379,8 +365,7 @@ const data=result.data;
 for(let i=1;i<data.length;i++){
 
 
-
-html += `
+html+=`
 
 <tr>
 
@@ -393,6 +378,7 @@ html += `
 <td>${data[i][6]}</td>
 
 <td>${data[i][7]}</td>
+
 
 </tr>
 
@@ -407,11 +393,76 @@ document.getElementById("tableData").innerHTML=html;
 
 
 
+updateFilter(data);
+
+
+
 }
 
 
-</script>
 
+
+
+function updateFilter(data){
+
+
+let wilayah=document.getElementById("wilayah");
+
+let nama=document.getElementById("nama");
+
+
+
+let wilayahSet=new Set();
+
+let namaSet=new Set();
+
+
+
+for(let i=1;i<data.length;i++){
+
+
+wilayahSet.add(data[i][4]);
+
+namaSet.add(data[i][1]);
+
+
+}
+
+
+
+wilayah.innerHTML=
+'<option value="">Semua Wilayah</option>';
+
+nama.innerHTML=
+'<option value="">Semua Petugas</option>';
+
+
+
+wilayahSet.forEach(x=>{
+
+wilayah.innerHTML+=
+
+`<option value="${x}">${x}</option>`;
+
+});
+
+
+
+namaSet.forEach(x=>{
+
+nama.innerHTML+=
+
+`<option value="${x}">${x}</option>`;
+
+});
+
+
+
+}
+
+
+
+</script>
 
 </body>
 
