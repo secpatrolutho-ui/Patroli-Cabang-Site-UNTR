@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1">
+
+<title>SPMS Dashboard</title>
+
+</head>
+
+<body>
+
+<h1>SMART PATROL MANAGEMENT SYSTEM</h1>
+
+<button onclick="loadDashboard()">
+
+Load Dashboard
+
+</button>
+
+<pre id="result"></pre>
+
+<script>
+
+const API="PASTE_URL_APPS_SCRIPT_DISINI";
+
+async function loadDashboard(){
+
+    const response = await fetch(API,{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"text/plain;charset=utf-8"
+        },
+
+        body:JSON.stringify({
+
+            action:"getDashboard"
+
+        })
+
+    });
+
+    const data=await response.json();
+
+    document.getElementById("result").textContent=
+
+        JSON.stringify(data,null,4);
+
+}
+
+</script>
+
+</body>
+
+</html>
