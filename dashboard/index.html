@@ -5,103 +5,413 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>SPMS Dashboard</title>
 
+
+<style>
+
+body{
+
+font-family:Arial, sans-serif;
+
+background:#0B1F3A;
+
+margin:0;
+
+color:white;
+
+}
+
+
+.header{
+
+background:#F4C400;
+
+color:#002B5B;
+
+padding:20px;
+
+text-align:center;
+
+font-weight:bold;
+
+}
+
+
+
+.container{
+
+padding:20px;
+
+}
+
+
+
+button{
+
+background:#005BAC;
+
+color:white;
+
+border:none;
+
+padding:12px 20px;
+
+border-radius:8px;
+
+cursor:pointer;
+
+}
+
+
+
+.cards{
+
+display:grid;
+
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+
+
+.card{
+
+background:white;
+
+color:#002B5B;
+
+padding:20px;
+
+border-radius:15px;
+
+text-align:center;
+
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+
+
+.number{
+
+font-size:35px;
+
+font-weight:bold;
+
+}
+
+
+
+.table-box{
+
+background:white;
+
+color:#333;
+
+margin-top:30px;
+
+padding:20px;
+
+border-radius:15px;
+
+overflow:auto;
+
+}
+
+
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+}
+
+
+
+th{
+
+background:#F4C400;
+
+color:#002B5B;
+
+}
+
+
+
+td,th{
+
+padding:12px;
+
+border-bottom:1px solid #ddd;
+
+text-align:left;
+
+}
+
+
+
+</style>
+
+
 </head>
+
 
 <body>
 
-<h1>SMART PATROL MANAGEMENT SYSTEM</h1>
+
+<div class="header">
+
+<h1>
+SMART PATROL MANAGEMENT SYSTEM
+</h1>
+
+<h3>
+PT UNITED TRACTORS Tbk
+</h3>
+
 
 <button onclick="loadDashboard()">
 
-Load Dashboard
+LOAD DASHBOARD
 
 </button>
 
-<div id="card"></div>
 
-<table border="1" width="100%">
+</div>
+
+
+
+<div class="container">
+
+
+<div class="cards">
+
+
+<div class="card">
+
+Total Patrol
+
+<div class="number" id="total">
+
+0
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+Petugas Aktif
+
+<div class="number" id="petugas">
+
+0
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+Checkpoint
+
+<div class="number" id="checkpoint">
+
+0
+
+</div>
+
+</div>
+
+
+
+<div class="card">
+
+Temuan
+
+<div class="number" id="temuan">
+
+0
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="table-box">
+
+
+<h2>
+
+Riwayat Patroli
+
+</h2>
+
+
+
+<table>
+
 
 <thead>
 
 <tr>
+
 <th>Waktu</th>
+
 <th>Nama</th>
+
 <th>Wilayah</th>
+
 <th>Checkpoint</th>
+
 <th>Situasi</th>
+
+
 </tr>
+
 
 </thead>
 
+
 <tbody id="tableData">
+
 
 </tbody>
 
+
 </table>
+
+
+
+</div>
+
+
+
+</div>
+
+
 
 <script>
 
-const API="https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
+
+const API=
+
+"https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
+
+
+
 
 
 async function loadDashboard(){
 
-    const response = await fetch(
-      API+"?action=getDashboard"
-    );
 
-    const result = await response.json();
+const response=
 
+await fetch(
 
-    const data=result.data;
+API+"?action=getDashboard"
 
-
-    document.getElementById("card").innerHTML=`
-
-    <h2>Total Patrol : ${result.total}</h2>
-
-    `;
+);
 
 
 
-    let html="";
+const result=
+
+await response.json();
 
 
-    for(let i=1;i<data.length;i++){
-
-        html +=`
-
-        <tr>
-
-        <td>${data[i][0]}</td>
-
-        <td>${data[i][1]}</td>
-
-        <td>${data[i][4]}</td>
-
-        <td>${data[i][6]}</td>
-
-        <td>${data[i][7]}</td>
-
-        </tr>
-
-        `;
-
-    }
 
 
-    document.getElementById("tableData").innerHTML=html;
+
+document.getElementById("total").innerHTML=
+
+result.total;
+
+
+
+document.getElementById("petugas").innerHTML=
+
+result.petugas;
+
+
+
+document.getElementById("checkpoint").innerHTML=
+
+result.checkpoint;
+
+
+
+document.getElementById("temuan").innerHTML=
+
+result.temuan;
+
+
+
+
+
+let html="";
+
+
+
+const data=result.data;
+
+
+
+for(let i=1;i<data.length;i++){
+
+
+
+html += `
+
+<tr>
+
+<td>${new Date(data[i][0]).toLocaleString("id-ID")}</td>
+
+<td>${data[i][1]}</td>
+
+<td>${data[i][4]}</td>
+
+<td>${data[i][6]}</td>
+
+<td>${data[i][7]}</td>
+
+</tr>
+
+
+`;
+
+}
+
+
+
+document.getElementById("tableData").innerHTML=html;
+
 
 
 }
 
 
 </script>
+
 
 </body>
 
