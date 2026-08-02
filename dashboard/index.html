@@ -434,10 +434,7 @@ Riwayat Patroli
 
 
 
-<tbody id="tableData">
-
-
-</tbody>
+<tbody id="tableData"></tbody>
 
 
 
@@ -530,7 +527,8 @@ let html = "";
 
 const data = result.data;
 
-
+console.log("DATA TABEL :", data);
+console.log("JUMLAH ROW :", data.length);   
 
 if(data.length <= 1){
 
@@ -604,13 +602,8 @@ ${data[i][7]}
 }
 
 
-}
-
-
-
 document.getElementById("tableData").innerHTML = html;
-
-
+alert(html);   
 
 
 /* ==========================
