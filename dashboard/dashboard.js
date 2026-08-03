@@ -1,122 +1,69 @@
+const API =
+"https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
+
 
 let map;
+let markerLayer;
 
 
-window.onload=function(){
+
+async function loadDashboard(){
 
 
-map=L.map('map')
-.setView(
-[-6.18,106.93],
-15
+try{
+
+
+const response =
+await fetch(
+API+
+"?action=getDashboard"
 );
 
 
 
-L.tileLayer(
-
-'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-
-).addTo(map);
+const result =
+await response.json();
 
 
 
+console.log(
+"DASHBOARD DATA",
+result
+);
 
 
-new Chart(
-document.getElementById("chartPatrol"),
-{
 
-type:"bar",
+updateKPI(result);
 
-data:{
 
-labels:[
-"Sen",
-"Sel",
-"Rab",
-"Kam",
-"Jum"
-],
 
-datasets:[{
+updateTable(
+result.data
+);
 
-label:"Jumlah Patrol",
 
-data:[
-30,
-45,
-60,
-40,
-70
-]
 
-}]
+renderMap(
+result.checkpointMap
+);
+
+
+
+renderChart(
+result
+);
+
+
 
 }
 
-});
+catch(error){
 
 
+console.error(error);
 
-
-new Chart(
-document.getElementById("chartLokasi"),
-{
-
-type:"doughnut",
-
-data:{
-
-labels:[
-"Head Office",
-"Plant",
-"Site"
-],
-
-datasets:[{
-
-data:[
-50,
-30,
-20
-]
-
-}]
 
 }
-
-});
-
-
-
-
-
-new Chart(
-document.getElementById("chartSituasi"),
-{
-
-type:"pie",
-
-data:{
-
-labels:[
-"Normal",
-"Temuan"
-],
-
-datasets:[{
-
-data:[
-90,
-10
-]
-
-}]
-
-}
-
-});
 
 
 
