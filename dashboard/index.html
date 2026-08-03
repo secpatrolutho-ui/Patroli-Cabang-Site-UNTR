@@ -271,7 +271,7 @@ Petugas Aktif
 
 <div class="card">
 
-Checkpoint Aktif
+Checkpoint Terlaksana
 
 <div class="number" id="checkpointAktif">
 
@@ -280,7 +280,7 @@ Checkpoint Aktif
 </div>
 
 <small>
-dari total checkpoint
+checkpoint berhasil discan
 </small>
 
 </div>
@@ -561,10 +561,7 @@ async function loadDashboard(){
         document.getElementById("petugas").innerHTML =
         result.petugas || 0;
 
-
-        document.getElementById("checkpoint").innerHTML =
-        result.checkpoint || 0;
-
+        
         document.getElementById("checkpointAktif").innerHTML =
         result.checkpointAktif || 0;
 
