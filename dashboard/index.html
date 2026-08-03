@@ -4,16 +4,38 @@
 
 <head>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<link 
+rel="stylesheet" 
+href="https://unpkg.com/leaflet/dist/leaflet.css"
+/>
+
+
+<script 
+src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>    
+
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>SPMS Dashboard</title>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+  
 
 <style>
+
+#map{
+
+height:500px;
+
+border-radius:15px;
+
+overflow:hidden;
+
+}    
 
 
 body{
@@ -163,9 +185,7 @@ text-align:left;
 
 </style>
 
-
 </head>
-
 
 <body>
 
@@ -180,7 +200,8 @@ SMART PATROL MANAGEMENT SYSTEM
 
 
 <h3>
-PT UNITED TRACTORS Tbk
+Digital Security Monitoring Dashboard
+PT United Tractors Tbk
 </h3>
 
 
@@ -341,6 +362,19 @@ Terapkan Filter
 
 <div class="chart-box">
 
+<h2>
+🗺 Peta Monitoring Checkpoint
+</h2>
+
+
+<div id="map"></div>
+
+
+</div>
+
+
+
+<div class="chart-box">
 
 <h2>
 Trend Patrol Harian
@@ -348,6 +382,9 @@ Trend Patrol Harian
 
 
 <canvas id="chartTanggal"></canvas>
+
+
+</div>
 
 
 </div>
@@ -385,12 +422,6 @@ Situasi Patrol
 
 
 </div>
-
-
-</div>
-
-
-
 
 
 
@@ -463,9 +494,24 @@ let chartTanggal;
 let chartWilayah;
 let chartSituasi;
 
+let map;
+let markerLayer;    
+
 
 
 async function loadDashboard(){
+
+catch(error){
+
+console.error(error);
+
+document.querySelector(".header button").innerHTML="LOAD DASHBOARD";
+
+alert(
+"Gagal mengambil data dashboard"
+);
+
+}
 
 
     let url =
@@ -564,28 +610,28 @@ async function loadDashboard(){
 
 
                 <td>
-                ${new Date(data[i][0]).toLocaleString("id-ID")}
-                </td>
+                    ${data[i][0]}
+                    </td>
 
 
                 <td>
-                ${data[i][1]}
-                </td>
+                    ${data[i][1]}
+                    </td>
+
+    
+                <td>
+                    ${data[i][3]}
+                    </td>
 
 
                 <td>
-                ${data[i][4]}
-                </td>
+                    ${data[i][5]}
+                    </td>
 
 
                 <td>
-                ${data[i][6]}
-                </td>
-
-
-                <td>
-                ${data[i][7]}
-                </td>
+                    ${data[i][6]}
+                    </td>
 
 
                 </tr>
@@ -612,15 +658,16 @@ async function loadDashboard(){
 
         renderChart(result);
 
+        renderMap(result.checkpointMap);
 
 
         // =====================
         // FILTER
         // =====================
 
-
         updateFilter(data);
 
+        document.querySelector(".header button").innerHTML="LOAD DASHBOARD";
 
 
     }
@@ -683,7 +730,7 @@ function updateFilter(data){
     for(let i=1;i<data.length;i++){
 
 
-        wilayahSet.add(data[i][4]);
+        wilayahSet.add(data[i][3]);
 
 
         namaSet.add(data[i][1]);
@@ -799,7 +846,7 @@ function renderChart(result){
         data:{
 
             labels:
-            result.chartTanggal.map(
+            (result.chartTanggal || []).map(
             x=>x.tanggal
             ),
 
@@ -809,9 +856,9 @@ function renderChart(result){
                 label:"Jumlah Patrol",
 
                 data:
-                result.chartTanggal.map(
+                (result.chartTanggal || []).map(
                 x=>x.jumlah
-                )
+            )
 
             }]
 
@@ -839,7 +886,7 @@ function renderChart(result){
         data:{
 
             labels:
-            result.chartWilayah.map(
+            (result.chartWilayah || []).map(
             x=>x.wilayah
             ),
 
@@ -849,7 +896,7 @@ function renderChart(result){
                 label:"Jumlah Patrol",
 
                 data:
-                result.chartWilayah.map(
+                (result.chartWilayah || []).map(
                 x=>x.jumlah
                 )
 
@@ -880,7 +927,7 @@ function renderChart(result){
         data:{
 
             labels:
-            result.chartSituasi.map(
+            (result.chartSituasi || []).map(
             x=>x.situasi
             ),
 
@@ -890,7 +937,7 @@ function renderChart(result){
                 label:"Situasi",
 
                 data:
-                result.chartSituasi.map(
+                (result.chartSituasi || []).map(
                 x=>x.jumlah
                 )
 
@@ -907,5 +954,142 @@ function renderChart(result){
 
 }
 
+function renderMap(points){
+
+
+if(!points || points.length===0){
+return;
+}
+
+
+if(!map){
+
+
+map = L.map('map').setView(
+[-2.5,118],
+5
+);
+
+
+
+L.tileLayer(
+
+'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+
+{
+
+maxZoom:19,
+
+}
+
+).addTo(map);
+
+
+
+markerLayer = L.layerGroup()
+.addTo(map);
+
+
+}
+
+
+
+markerLayer.clearLayers();
+
+
+
+let bounds=[];
+
+
+
+points.forEach(cp=>{
+
+
+
+let lat =
+Number(cp.latitude);
+
+
+let lng =
+Number(cp.longitude);
+
+
+
+if(isNaN(lat) || isNaN(lng))
+return;
+
+
+
+let marker =
+L.marker(
+[lat,lng]
+);
+
+
+
+marker.bindPopup(`
+
+
+<b>${cp.checkpoint}</b>
+<br><br>
+
+
+Lokasi :
+${cp.lokasi}
+
+<br>
+
+
+Wilayah :
+${cp.wilayah}
+
+<br>
+
+
+Radius :
+${cp.radius} meter
+
+
+`);
+
+
+
+marker.addTo(markerLayer);
+
+
+
+bounds.push([
+lat,
+lng
+]);
+
+
+
+});
+
+
+
+
+if(bounds.length>0){
+
+map.fitBounds(bounds);
+
+}
+
+
+
+}    
+
+
+<script>
+
+window.onload=function(){
+
+loadDashboard();
+
+}
 
 </script>
+
+</body>
+</html>
