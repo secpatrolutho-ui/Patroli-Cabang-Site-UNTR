@@ -119,9 +119,12 @@ function updateTable(data){
 
 
 let tbody =
-document.querySelector(
-"tbody"
+document.getElementById(
+"historyBody"
 );
+
+
+if(!tbody) return;
 
 
 tbody.innerHTML="";
@@ -139,26 +142,21 @@ let row =
 ${data[i][0]}
 </td>
 
-
 <td>
 ${data[i][1]}
 </td>
-
 
 <td>
 ${data[i][3]}
 </td>
 
-
 <td>
 ${data[i][6]}
 </td>
 
-
 <td>
 ${data[i][7]}
 </td>
-
 
 </tr>
 
@@ -794,6 +792,88 @@ err
 );
 
 }
+
+
+}
+
+function updateMonitoring(data){
+
+
+let tbody =
+document.getElementById(
+"monitoringBody"
+);
+
+
+if(!tbody) return;
+
+
+tbody.innerHTML="";
+
+
+
+data.forEach(item=>{
+
+
+let statusClass="";
+
+
+if(item.status=="AKTIF"){
+
+statusClass="status-green";
+
+}
+
+else if(item.status=="WASPADA"){
+
+statusClass="status-yellow";
+
+}
+
+else{
+
+statusClass="status-red";
+
+}
+
+
+
+tbody.innerHTML +=
+
+`
+
+<tr>
+
+<td>
+${item.lokasi}
+</td>
+
+
+<td>
+${item.nama}
+</td>
+
+
+<td>
+${new Date(item.waktu).toLocaleString()}
+</td>
+
+
+<td>
+
+<span class="${statusClass}">
+${item.status}
+</span>
+
+</td>
+
+
+</tr>
+
+`;
+
+
+});
 
 
 }
