@@ -1,303 +1,378 @@
-*{
-box-sizing:border-box;
-}
+/* ==================================================
+   SMART PATROL MANAGEMENT SYSTEM
+   Enterprise Dashboard UI v2
+================================================== */
 
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
 body{
 
-margin:0;
+    font-family:Arial,sans-serif;
 
-font-family:
-Arial, sans-serif;
+    background:#EEF3F8;
 
-background:#0B1F3A;
-
-color:white;
+    color:#333;
 
 }
 
 
-
-
-
-/* HEADER */
-
+/* =========================
+   HEADER
+========================= */
 
 .header{
 
-background:#F4C400;
+    height:90px;
 
-color:#002B5B;
+    background:#F4C400;
 
-padding:20px 40px;
+    display:flex;
 
-display:flex;
+    justify-content:space-between;
 
-justify-content:space-between;
+    align-items:center;
 
-align-items:center;
+    padding:0 35px;
+
+    box-shadow:0 2px 8px rgba(0,0,0,.15);
 
 }
-
-
 
 .brand{
 
-display:flex;
+    display:flex;
 
-align-items:center;
+    align-items:center;
 
-gap:20px;
+    gap:20px;
 
 }
-
-
 
 .brand img{
 
-width:170px;
+    width:170px;
 
 }
-
-
 
 .brand h1{
 
-margin:0;
+    font-size:24px;
 
-font-size:26px;
+    color:#002B5B;
+
+}
+
+.brand p{
+
+    margin-top:5px;
+
+    color:#002B5B;
 
 }
 
 
+/* =========================
+   BUTTON
+========================= */
 
+button{
 
+    background:#005BAC;
 
-.header button,
-.filter button{
+    color:white;
 
-background:#005BAC;
+    border:none;
 
-color:white;
+    border-radius:8px;
 
-border:none;
+    padding:12px 24px;
 
-padding:12px 25px;
+    cursor:pointer;
 
-border-radius:10px;
+    transition:.3s;
+
+}
+
+button:hover{
+
+    background:#003F7F;
 
 }
 
 
-
-
+/* =========================
+   MAIN
+========================= */
 
 .container{
 
-padding:30px;
+    width:95%;
+
+    margin:25px auto;
 
 }
 
 
+/* =========================
+   KPI
+========================= */
 
+.cards{
 
+    display:grid;
 
-/* KPI */
+    grid-template-columns:repeat(4,1fr);
 
-
-.kpi{
-
-display:grid;
-
-grid-template-columns:
-repeat(4,1fr);
-
-gap:20px;
+    gap:20px;
 
 }
-
-
 
 .card{
 
-background:white;
+    background:white;
 
-color:#002B5B;
+    border-radius:15px;
 
-padding:25px;
+    padding:25px;
 
-border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
 
-text-align:center;
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.title{
+
+    color:#666;
+
+    font-size:15px;
+
+    margin-bottom:10px;
+
+}
+
+.number{
+
+    font-size:38px;
+
+    color:#002B5B;
+
+    font-weight:bold;
+
+}
+
+.card small{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:#888;
+
+}
+
+.danger{
+
+    border-left:6px solid #D9534F;
 
 }
 
 
+/* =========================
+   BOX
+========================= */
 
-.card span{
+.box,
+.filter{
 
-font-size:40px;
+    background:white;
 
-font-weight:bold;
+    border-radius:15px;
+
+    padding:20px;
+
+    margin-top:25px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+
+}
+
+.box h2,
+.filter h2{
+
+    color:#002B5B;
+
+    margin-bottom:15px;
 
 }
 
 
-
-
-
-/* FILTER */
-
-
-.filter,
-.box{
-
-background:white;
-
-color:#333;
-
-padding:25px;
-
-border-radius:15px;
-
-margin-top:25px;
-
-}
-
-
+/* =========================
+   FILTER
+========================= */
 
 .filter-row{
 
-display:flex;
+    display:flex;
 
-gap:15px;
+    gap:15px;
+
+    flex-wrap:wrap;
 
 }
-
-
 
 select,
 input{
 
-padding:12px;
+    padding:10px;
 
-border-radius:8px;
+    border:1px solid #CCC;
 
-border:1px solid #ccc;
+    border-radius:8px;
+
+    min-width:180px;
 
 }
 
 
-
-
-
-/* DASHBOARD */
-
+/* =========================
+   GRID
+========================= */
 
 .dashboard-grid{
 
-display:grid;
+    display:grid;
 
-grid-template-columns:
-2fr 1fr;
+    grid-template-columns:2fr 1fr;
 
-gap:25px;
+    gap:25px;
+
+    margin-top:25px;
 
 }
 
 
+/* =========================
+   MAP
+========================= */
 
 #map{
 
-height:550px;
+    width:100%;
 
-border-radius:15px;
+    height:600px;
+
+    border-radius:12px;
 
 }
 
 
+/* =========================
+   CHART
+========================= */
 
 .analytic{
 
-display:flex;
+    display:flex;
 
-flex-direction:column;
+    flex-direction:column;
 
-gap:20px;
+    gap:20px;
 
 }
-
-
 
 canvas{
 
-max-height:250px;
+    width:100% !important;
+
+    height:240px !important;
 
 }
 
 
-
-
-
-/* TABLE */
-
+/* =========================
+   TABLE
+========================= */
 
 table{
 
-width:100%;
+    width:100%;
 
-border-collapse:collapse;
+    border-collapse:collapse;
 
 }
 
+thead{
 
+    background:#F4C400;
+
+}
 
 th{
 
-background:#F4C400;
+    color:#002B5B;
 
-color:#002B5B;
+    padding:14px;
+
+    text-align:left;
+
+}
+
+td{
+
+    padding:12px;
+
+    border-bottom:1px solid #EEE;
+
+}
+
+tbody tr:hover{
+
+    background:#F7F7F7;
 
 }
 
 
-
-td,th{
-
-padding:12px;
-
-border-bottom:1px solid #ddd;
-
-}
-
-
-
+/* =========================
+   FOOTER
+========================= */
 
 footer{
 
-background:#F4C400;
+    margin-top:30px;
 
-color:#002B5B;
+    background:#F4C400;
 
-text-align:center;
+    color:#002B5B;
 
-padding:15px;
+    text-align:center;
+
+    padding:15px;
 
 }
 
 
+/* =========================
+   RESPONSIVE
+========================= */
 
+@media(max-width:1200px){
 
-
-@media(max-width:1000px){
-
-
-.kpi{
+.cards{
 
 grid-template-columns:repeat(2,1fr);
 
 }
-
 
 .dashboard-grid{
 
@@ -305,142 +380,32 @@ grid-template-columns:1fr;
 
 }
 
-}
-
-/* ======================
-   DASHBOARD PREMIUM UI
-====================== */
-
-
-.header h1{
-
-margin-bottom:5px;
-
-}
-
-
-.header h3{
-
-margin-top:5px;
-
-font-weight:normal;
-
-}
-
-
-
-.card{
-
-position:relative;
-
-overflow:hidden;
-
-}
-
-
-
-.card .title{
-
-font-size:16px;
-
-font-weight:bold;
-
-margin-bottom:10px;
-
-color:#555;
-
-}
-
-
-
-.card small{
-
-display:block;
-
-margin-top:10px;
-
-color:#777;
-
-}
-
-
-
-
-.card:hover{
-
-transform:translateY(-8px);
-
-box-shadow:
-0 10px 25px rgba(0,0,0,.25);
-
-}
-
-
-
-.danger{
-
-border-left:
-8px solid #d9534f;
-
-}
-
-
-
-.filter-box h2{
-
-margin-top:0;
-
-color:#002B5B;
-
-}
-
-
-
-button:hover{
-
-background:#003f7f;
-
-}
-
-
-
-
-.chart-box h2,
-.table-box h2{
-
-color:#002B5B;
-
-}
-
-
-
-
 #map{
 
 height:450px;
 
 }
 
+}
 
+@media(max-width:700px){
 
-.table-box{
+.cards{
 
-overflow-x:auto;
+grid-template-columns:1fr;
 
 }
 
+.filter-row{
 
-
-table{
-
-background:white;
+flex-direction:column;
 
 }
 
+button{
 
+width:100%;
 
-tbody tr:hover{
-
-background:#f5f5f5;
+}
 
 }
