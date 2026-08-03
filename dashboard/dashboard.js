@@ -805,7 +805,15 @@ document.getElementById(
 );
 
 
-if(!tbody) return;
+if(!tbody){
+
+console.error(
+"Tabel monitoring tidak ditemukan"
+);
+
+return;
+
+}
 
 
 tbody.innerHTML="";
@@ -815,63 +823,27 @@ tbody.innerHTML="";
 data.forEach(item=>{
 
 
-let statusClass="";
-
-
-if(item.status=="AKTIF"){
-
-statusClass="status-green";
-
-}
-
-else if(item.status=="WASPADA"){
-
-statusClass="status-yellow";
-
-}
-
-else{
-
-statusClass="status-red";
-
-}
-
-
-
 tbody.innerHTML +=
 
 `
 
 <tr>
 
-<td>
-${item.lokasi}
-</td>
+<td>${item.lokasi}</td>
 
-
-<td>
-${item.nama}
-</td>
-
+<td>${item.nama}</td>
 
 <td>
 ${new Date(item.waktu).toLocaleString()}
 </td>
 
-
 <td>
-
-<span class="${statusClass}">
 ${item.status}
-</span>
-
 </td>
-
 
 </tr>
 
 `;
-
 
 });
 
