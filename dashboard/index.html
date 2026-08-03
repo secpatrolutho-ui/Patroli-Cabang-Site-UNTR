@@ -518,9 +518,17 @@ let markerLayer;
 
 async function loadDashboard(){
 
-    const button = document.getElementById("lastUpdate").innerHTML =
+    let update =
+    document.getElementById("lastUpdate");
+
+
+    if(update){
+
+    update.innerHTML =
     "Last Update : " +
     new Date().toLocaleString("id-ID");
+
+    }
 
 
     const url =
