@@ -428,6 +428,123 @@ x=>x.jumlah
 
 });
 
+// ===============================
+// MAP CHECKPOINT MONITORING
+// ===============================
+
+let map;
+let markerLayer;
+
+
+function renderMap(points){
+
+
+    if(!points || points.length === 0){
+        return;
+    }
+
+
+    if(!map){
+
+
+        map = L.map('map').setView(
+            [-6.2,106.9],
+            15
+        );
+
+
+        L.tileLayer(
+            'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            {
+                maxZoom:19
+            }
+        ).addTo(map);
+
+
+        markerLayer = L.layerGroup()
+        .addTo(map);
+
+
+    }
+
+
+
+    markerLayer.clearLayers();
+
+
+    let bounds=[];
+
+
+
+    points.forEach(cp=>{
+
+
+        let lat = Number(cp.latitude);
+        let lng = Number(cp.longitude);
+
+
+
+        if(isNaN(lat) || isNaN(lng)){
+            return;
+        }
+
+
+
+        let marker = L.marker(
+            [
+                lat,
+                lng
+            ]
+        );
+
+
+
+        marker.bindPopup(`
+
+        <b>${cp.checkpoint}</b>
+        <br><br>
+
+        Lokasi :
+        ${cp.lokasi}
+
+        <br>
+
+        Wilayah :
+        ${cp.wilayah}
+
+        <br>
+
+        Radius :
+        ${cp.radius} meter
+
+        `);
+
+
+
+        marker.addTo(markerLayer);
+
+
+
+        bounds.push(
+            [
+                lat,
+                lng
+            ]
+        );
+
+
+    });
+
+
+
+    if(bounds.length > 0){
+
+        map.fitBounds(bounds);
+
+    }
+
+
+}  
 
 
 }
