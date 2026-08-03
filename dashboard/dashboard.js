@@ -299,3 +299,136 @@ loadDashboard();
 
 },30000);
 
+let chartPatrol;
+let chartLokasi;
+let chartSituasi;
+
+
+
+function renderChart(result){
+
+
+
+if(chartPatrol){
+chartPatrol.destroy();
+}
+
+
+if(chartLokasi){
+chartLokasi.destroy();
+}
+
+
+if(chartSituasi){
+chartSituasi.destroy();
+}
+
+
+
+
+chartPatrol =
+new Chart(
+document.getElementById("chartPatrol"),
+{
+
+type:"bar",
+
+data:{
+
+labels:
+
+result.chartTanggal.map(
+x=>x.tanggal
+),
+
+
+datasets:[{
+
+label:"Jumlah Patrol",
+
+data:
+
+result.chartTanggal.map(
+x=>x.jumlah
+)
+
+}]
+
+}
+
+});
+
+
+
+
+
+
+chartLokasi =
+new Chart(
+document.getElementById("chartLokasi"),
+{
+
+type:"doughnut",
+
+data:{
+
+labels:
+
+result.chartWilayah.map(
+x=>x.wilayah
+),
+
+
+datasets:[{
+
+data:
+
+result.chartWilayah.map(
+x=>x.jumlah
+)
+
+}]
+
+}
+
+});
+
+
+
+
+
+
+chartSituasi =
+new Chart(
+document.getElementById("chartSituasi"),
+{
+
+type:"pie",
+
+data:{
+
+labels:
+
+result.chartSituasi.map(
+x=>x.situasi
+),
+
+
+datasets:[{
+
+data:
+
+result.chartSituasi.map(
+x=>x.jumlah
+)
+
+}]
+
+}
+
+});
+
+
+
+}
+
