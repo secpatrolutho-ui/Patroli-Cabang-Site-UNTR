@@ -1,16 +1,6 @@
 const API =
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
-
-let chartPatrol;
-let chartLokasi;
-let chartSituasi;
-
-let map;
-let markerLayer;
-
-
-
 async function loadDashboard(){
 
 let btn=document.getElementById("loadButton");
