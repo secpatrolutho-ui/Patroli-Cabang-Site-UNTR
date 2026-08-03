@@ -308,12 +308,12 @@ Tanggal :
 
 
 
-Wilayah :
+Lokasi :
 
-<select id="wilayah">
+<select id="lokasi">
 
 <option value="">
-Semua Wilayah
+Semua lokasi
 </option>
 
 
@@ -512,8 +512,8 @@ async function loadDashboard(){
     "?action=getDashboard" +
     "&tanggal=" +
     document.getElementById("tanggal").value +
-    "&wilayah=" +
-    document.getElementById("wilayah").value +
+    "&lokasi=" +
+    document.getElementById("lokasi").value +
     "&nama=" +
     document.getElementById("nama").value;
 
@@ -654,7 +654,7 @@ function updateFilter(data){
 
 
     let wilayah =
-    document.getElementById("wilayah");
+    document.getElementById("lokasi");
 
 
     let nama =
@@ -662,8 +662,8 @@ function updateFilter(data){
 
 
 
-    let wilayahOld =
-    wilayah.value;
+    let lokasiOld =
+    lokasi.value;
 
 
     let namaOld =
@@ -671,7 +671,7 @@ function updateFilter(data){
 
 
 
-    let wilayahSet =
+    let lokasiSet =
     new Set();
 
 
@@ -684,7 +684,7 @@ function updateFilter(data){
     for(let i=1;i<data.length;i++){
 
 
-        wilayahSet.add(data[i][4]);
+        lokasiSet.add(data[i][3]);
 
 
         namaSet.add(data[i][1]);
@@ -695,8 +695,8 @@ function updateFilter(data){
 
 
 
-    wilayah.innerHTML =
-    '<option value="">Semua Wilayah</option>';
+    lokasi.innerHTML =
+    '<option value="">Semua lokasi</option>';
 
 
     nama.innerHTML =
@@ -705,10 +705,10 @@ function updateFilter(data){
 
 
 
-    wilayahSet.forEach(function(item){
+    lokasiSet.forEach(function(item){
 
 
-        wilayah.innerHTML +=
+        lokasi.innerHTML +=
 
         `
         <option value="${item}">
@@ -740,7 +740,7 @@ function updateFilter(data){
 
 
 
-    wilayah.value =
+    lokasi.value =
     wilayahOld;
 
 
