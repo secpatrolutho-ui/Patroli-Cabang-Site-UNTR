@@ -303,195 +303,264 @@ let chartPatrol;
 let chartLokasi;
 let chartSituasi;
 
+let map;
+let markerLayer;
 
+
+// ===============================
+// RENDER CHART
+// ===============================
 
 function renderChart(result){
 
 
+    if(chartPatrol){
+        chartPatrol.destroy();
+    }
 
-if(chartPatrol){
-chartPatrol.destroy();
+
+    if(chartLokasi){
+        chartLokasi.destroy();
+    }
+
+
+    if(chartSituasi){
+        chartSituasi.destroy();
+    }
+
+
+
+    // =====================
+    // TREND PATROL
+    // =====================
+
+    let patrolData = result.chartTanggal || [];
+
+
+    chartPatrol =
+    new Chart(
+        document.getElementById("chartPatrol"),
+        {
+
+            type:"bar",
+
+            data:{
+
+                labels:
+                patrolData.map(
+                    x=>x.tanggal
+                ),
+
+
+                datasets:[{
+
+                    label:"Jumlah Patrol",
+
+                    data:
+                    patrolData.map(
+                        x=>x.jumlah
+                    )
+
+                }]
+
+            }
+
+        }
+    );
+
+
+
+
+    // =====================
+    // PATROL PER LOKASI
+    // =====================
+
+
+    let lokasiData =
+    result.chartWilayah || [];
+
+
+
+    chartLokasi =
+    new Chart(
+        document.getElementById("chartLokasi"),
+        {
+
+            type:"doughnut",
+
+            data:{
+
+                labels:
+                lokasiData.map(
+                    x=>x.wilayah
+                ),
+
+
+                datasets:[{
+
+                    label:"Lokasi",
+
+                    data:
+                    lokasiData.map(
+                        x=>x.jumlah
+                    )
+
+                }]
+
+            }
+
+        }
+    );
+
+
+
+
+    // =====================
+    // SITUASI PATROL
+    // =====================
+
+
+    let situasiData =
+    result.chartSituasi || [];
+
+
+
+    chartSituasi =
+    new Chart(
+        document.getElementById("chartSituasi"),
+        {
+
+            type:"pie",
+
+            data:{
+
+                labels:
+                situasiData.map(
+                    x=>x.situasi
+                ),
+
+
+                datasets:[{
+
+                    label:"Situasi",
+
+                    data:
+                    situasiData.map(
+                        x=>x.jumlah
+                    )
+
+                }]
+
+            }
+
+        }
+    );
+
+
+
 }
 
 
-if(chartLokasi){
-chartLokasi.destroy();
-}
-
-
-if(chartSituasi){
-chartSituasi.destroy();
-}
-
-
-
-
-chartPatrol =
-new Chart(
-document.getElementById("chartPatrol"),
-{
-
-type:"bar",
-
-data:{
-
-labels:
-
-result.chartTanggal.map(
-x=>x.tanggal
-),
-
-
-datasets:[{
-
-label:"Jumlah Patrol",
-
-data:
-
-result.chartTanggal.map(
-x=>x.jumlah
-)
-
-}]
-
-}
-
-});
-
-
-
-
-
-
-chartLokasi =
-new Chart(
-document.getElementById("chartLokasi"),
-{
-
-type:"doughnut",
-
-data:{
-
-labels:
-
-result.chartWilayah.map(
-x=>x.wilayah
-),
-
-
-datasets:[{
-
-data:
-
-result.chartWilayah.map(
-x=>x.jumlah
-)
-
-}]
-
-}
-
-});
-
-
-
-
-
-
-chartSituasi =
-new Chart(
-document.getElementById("chartSituasi"),
-{
-
-type:"pie",
-
-data:{
-
-labels:
-
-result.chartSituasi.map(
-x=>x.situasi
-),
-
-
-datasets:[{
-
-data:
-
-result.chartSituasi.map(
-x=>x.jumlah
-)
-
-}]
-
-}
-
-});
 
 // ===============================
 // MAP CHECKPOINT MONITORING
 // ===============================
 
-let map;
-let markerLayer;
-
 
 function renderMap(points){
 
+
     console.log("MAP DATA :", points);
 
+
+
     if(!points || points.length === 0){
+
+        console.log(
+        "Tidak ada data checkpoint"
+        );
+
         return;
+
     }
+
 
 
     if(!map){
 
 
-        map = L.map('map').setView(
-            [-6.2,106.9],
+
+        map =
+        L.map('map')
+        .setView(
+            [-6.18,106.93],
             15
         );
 
 
+
         L.tileLayer(
+
             'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+
             {
                 maxZoom:19
             }
+
         ).addTo(map);
 
 
-        markerLayer = L.layerGroup()
+
+        markerLayer =
+        L.layerGroup()
         .addTo(map);
 
 
+
     }
+
 
 
 
     markerLayer.clearLayers();
 
 
+
     let bounds=[];
+
 
 
 
     points.forEach(cp=>{
 
 
-        let lat = Number(cp.latitude);
-        let lng = Number(cp.longitude);
+
+        let lat =
+        Number(cp.latitude);
 
 
 
-        if(isNaN(lat) || isNaN(lng)){
+        let lng =
+        Number(cp.longitude);
+
+
+
+
+        if(
+            isNaN(lat) ||
+            isNaN(lng)
+        ){
+
             return;
+
         }
 
 
 
-        let marker = L.marker(
+
+
+        let marker =
+        L.marker(
             [
                 lat,
                 lng
@@ -500,29 +569,51 @@ function renderMap(points){
 
 
 
+
+
         marker.bindPopup(`
 
-        <b>${cp.checkpoint}</b>
+
+        <div style="min-width:200px">
+
+
+        <b>
+        ${cp.checkpoint}
+        </b>
+
+
         <br><br>
 
-        Lokasi :
+
+        📍 Lokasi :
         ${cp.lokasi}
 
+
         <br>
 
-        Wilayah :
+
+        🏢 Wilayah :
         ${cp.wilayah}
 
+
         <br>
 
-        Radius :
+
+        📏 Radius :
         ${cp.radius} meter
+
+
+        </div>
+
 
         `);
 
 
 
-        marker.addTo(markerLayer);
+
+        marker.addTo(
+            markerLayer
+        );
 
 
 
@@ -534,19 +625,38 @@ function renderMap(points){
         );
 
 
+
     });
+
+
 
 
 
     if(bounds.length > 0){
 
-        map.fitBounds(bounds);
+        map.fitBounds(
+            bounds
+        );
 
     }
 
 
-}  
-
 
 }
 
+
+
+
+
+// ===============================
+// AUTO REFRESH DASHBOARD
+// ===============================
+
+
+setInterval(function(){
+
+
+    loadDashboard();
+
+
+},30000);
