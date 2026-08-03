@@ -503,20 +503,11 @@ let markerLayer;
 
 async function loadDashboard(){
 
-catch(error){
-
-console.error(error);
-
-document.querySelector(".header button").innerHTML="LOAD DASHBOARD";
-
-alert(
-"Gagal mengambil data dashboard"
-);
-
-}
+    const button = document.querySelector(".header button");
+    button.innerHTML="LOADING...";
 
 
-    let url =
+    const url =
     API +
     "?action=getDashboard" +
     "&tanggal=" +
@@ -525,7 +516,6 @@ alert(
     document.getElementById("wilayah").value +
     "&nama=" +
     document.getElementById("nama").value;
-
 
 
     try{
@@ -537,15 +527,11 @@ alert(
         const result = await response.json();
 
 
-
         console.log("DASHBOARD :", result);
 
 
 
-        // =====================
         // KPI
-        // =====================
-
 
         document.getElementById("total").innerHTML =
         result.total || 0;
@@ -564,82 +550,50 @@ alert(
 
 
 
-
-
-        // =====================
         // TABLE
-        // =====================
+
+        let html="";
+
+        const data=result.data || [];
 
 
-        let html = "";
+        if(data.length<=1){
 
 
-        const data = result.data || [];
-
-
-        console.log("DATA TABLE :", data);
-
-
-
-        if(data.length <= 1){
-
-
-            html = `
+            html=`
 
             <tr>
-
             <td colspan="5" style="text-align:center">
-
             Data patrol tidak ditemukan
-
             </td>
-
             </tr>
 
             `;
 
 
-        }
-        else{
+        }else{
 
 
             for(let i=1;i<data.length;i++){
 
 
-                html += `
+                html+=`
 
                 <tr>
 
+                <td>${data[i][0]}</td>
 
-                <td>
-                    ${data[i][0]}
-                    </td>
+                <td>${data[i][1]}</td>
 
+                <td>${data[i][3]}</td>
 
-                <td>
-                    ${data[i][1]}
-                    </td>
+                <td>${data[i][5]}</td>
 
-    
-                <td>
-                    ${data[i][3]}
-                    </td>
-
-
-                <td>
-                    ${data[i][5]}
-                    </td>
-
-
-                <td>
-                    ${data[i][6]}
-                    </td>
-
+                <td>${data[i][6]}</td>
 
                 </tr>
 
                 `;
-
 
             }
 
@@ -647,38 +601,40 @@ alert(
         }
 
 
-
-        document.getElementById("tableData").innerHTML = html;
-
+        document.getElementById("tableData").innerHTML=html;
 
 
 
-        // =====================
         // CHART
-        // =====================
-
 
         renderChart(result);
+
+
+
+        // MAP
 
         renderMap(result.checkpointMap);
 
 
-        // =====================
+
         // FILTER
-        // =====================
 
         updateFilter(data);
 
-        document.querySelector(".header button").innerHTML="LOAD DASHBOARD";
+
+
+        button.innerHTML="LOAD DASHBOARD";
+
 
 
     }
-
-
     catch(error){
 
 
         console.error(error);
+
+
+        button.innerHTML="LOAD DASHBOARD";
 
 
         alert(
@@ -688,11 +644,7 @@ alert(
 
     }
 
-
 }
-
-
-
 
 
 
