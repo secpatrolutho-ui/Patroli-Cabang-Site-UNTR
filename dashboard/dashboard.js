@@ -4,9 +4,20 @@ const API =
 
 async function loadDashboard(){
 
+let btn =
+document.getElementById("loadButton");
 
+
+if(btn){
+
+btn.innerHTML="⏳ Loading...";
+
+btn.disabled=true;
+
+}
+    
 try{
-
+    
 
 const response =
 await fetch(
@@ -51,6 +62,14 @@ result
 
 
 }
+
+if(btn){
+
+btn.innerHTML="🔄 Refresh Dashboard";
+
+btn.disabled=false;
+
+}    
 
 catch(error){
 
