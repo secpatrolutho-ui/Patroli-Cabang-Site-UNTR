@@ -69,30 +69,22 @@ btn.disabled=false;
 function updateKPI(data){
 
 
-document.querySelector(
-".card:nth-child(1) span"
-).innerHTML =
+document.getElementById("total").innerHTML =
 data.total || 0;
 
 
 
-document.querySelector(
-".card:nth-child(2) span"
-).innerHTML =
+document.getElementById("petugas").innerHTML =
 data.petugas || 0;
 
 
 
-document.querySelector(
-".card:nth-child(3) span"
-).innerHTML =
+document.getElementById("checkpoint").innerHTML =
 data.checkpoint || 0;
 
 
 
-document.querySelector(
-".card:nth-child(4) span"
-).innerHTML =
+document.getElementById("temuan").innerHTML =
 data.temuan || 0;
 
 
