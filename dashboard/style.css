@@ -439,3 +439,35 @@ color:#e74c3c;
 font-weight:bold;
 
 }
+
+.status-green{
+
+background:#22c55e;
+color:white;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+
+}
+
+
+.status-yellow{
+
+background:#eab308;
+color:white;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+
+}
+
+
+.status-red{
+
+background:#ef4444;
+color:white;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+
+}
