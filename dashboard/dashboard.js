@@ -660,7 +660,7 @@ Semua Petugas
 
 
 
-ppetugasSet.forEach(x=>{
+petugasSet.forEach(x=>{
 
 
 petugas.innerHTML+=
@@ -673,7 +673,8 @@ ${x}
 });
 
 
-// restore filter aktif setelah refresh
+
+// restore filter aktif
 
 lokasi.value = activeFilter.lokasi;
 
