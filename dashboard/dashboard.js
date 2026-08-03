@@ -1,6 +1,12 @@
 const API =
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
+let activeFilter = {
+    lokasi:"",
+    nama:"",
+    tanggal:""
+};
+
 async function loadDashboard(){
 
 let btn=document.getElementById("loadButton");
@@ -17,14 +23,29 @@ btn.disabled=true;
 try{
 
 
+let url =
+API+
+"?action=getDashboard"+
+"&lokasi="+activeFilter.lokasi+
+"&nama="+activeFilter.nama+
+"&tanggal="+activeFilter.tanggal;
+
+
+
 const response =
-await fetch(API+"?action=getDashboard");
+await fetch(url);
 
 
 const result =
 await response.json();
 
+if(
+document.getElementById("filterLokasi").options.length <=1
+){
+
 generateFilter(result.data);
+
+}
 
 
 console.log(
@@ -537,26 +558,30 @@ loadDashboard
 function filterDashboard(){
 
 
-let lokasi =
+activeFilter.lokasi =
 document.getElementById(
 "filterLokasi"
 ).value;
 
 
-let petugas =
+
+activeFilter.nama =
 document.getElementById(
 "filterPetugas"
 ).value;
 
 
 
-let url =
-API+
-"?action=getDashboard"+
-"&lokasi="+lokasi+
-"&nama="+petugas;
+activeFilter.tanggal =
+document.querySelector(
+"input[type=date]"
+).value;
 
 
+
+loadDashboard();
+
+}
 
 fetch(url)
 
