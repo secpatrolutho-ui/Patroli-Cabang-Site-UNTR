@@ -534,13 +534,17 @@ window.onload=function(){
 
 loadDashboard();
 
+loadMonitoring();
+  
+
 };
 
 setInterval(function(){
 
 
-    loadDashboard();
+loadDashboard();
 
+loadMonitoring();  
 
 },30000);
 
@@ -679,6 +683,117 @@ ${x}
 lokasi.value = activeFilter.lokasi;
 
 petugas.value = activeFilter.nama;
+
+
+}
+
+async function loadMonitoring(){
+
+
+try{
+
+
+let response =
+await fetch(
+API+"?action=getMonitoring"
+);
+
+
+let result =
+await response.json();
+
+
+
+console.log(
+"MONITORING",
+result
+);
+
+
+
+let tbody =
+document.getElementById(
+"monitoringTable"
+);
+
+
+
+tbody.innerHTML="";
+
+
+
+result.monitoring.forEach(item=>{
+
+
+let warna="";
+
+
+if(item.status=="AKTIF"){
+
+warna="🟢";
+
+}
+
+else if(item.status=="WASPADA"){
+
+warna="🟡";
+
+}
+
+else{
+
+warna="🔴";
+
+}
+
+
+
+tbody.innerHTML+=`
+
+<tr>
+
+<td>
+${item.lokasi}
+</td>
+
+
+<td>
+${item.nama}
+</td>
+
+
+<td>
+${new Date(item.waktu)
+.toLocaleString()
+}
+</td>
+
+
+<td>
+${warna} ${item.status}
+</td>
+
+
+</tr>
+
+
+`;
+
+
+
+});
+
+
+}
+
+catch(err){
+
+console.error(
+"Monitoring Error",
+err
+);
+
+}
 
 
 }
