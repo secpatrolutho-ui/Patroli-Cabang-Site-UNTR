@@ -505,7 +505,7 @@ const API =
 
 
 let chartTanggal;
-let chartWilayah;
+let chartLokasi;
 let chartSituasi;
 
 let map;
@@ -779,9 +779,9 @@ function renderChart(result){
 
 
 
-    if(chartlokasi){
+    if(chartLokasi){
 
-        chartlokasi.destroy();
+        chartLokasi.destroy();
 
     }
 
@@ -833,9 +833,9 @@ function renderChart(result){
 
 
 
-    chartlokasi = new Chart(
+    chartLokasi = new Chart(
 
-        document.getElementById("chartlokasi"),
+        document.getElementById("chartLokasi"),
 
         {
 
@@ -844,8 +844,8 @@ function renderChart(result){
         data:{
 
             labels:
-            (result.chartlokasi || []).map(
-            x=>x.wilayah
+            (result.chartLokasi || []).map(
+            x=>x.lokasi
             ),
 
 
@@ -854,7 +854,7 @@ function renderChart(result){
                 label:"Jumlah Patrol",
 
                 data:
-                (result.chartWilayah || []).map(
+                (result.chartLokasi || []).map(
                 x=>x.jumlah
                 )
 
