@@ -2,11 +2,6 @@ const API =
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
 
-let map;
-let markerLayer;
-
-
-
 async function loadDashboard(){
 
 
