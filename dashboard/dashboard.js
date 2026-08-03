@@ -635,7 +635,11 @@ function renderMap(points){
 
     }
 
+    setTimeout(function(){
 
+    map.invalidateSize();
+
+    },500);
 
 }
 
