@@ -12,284 +12,471 @@
 
 <link rel="stylesheet" href="style.css">
 
-<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Leaflet -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 </head>
 
+
 <body>
+
 
 <!-- ================= HEADER ================= -->
 
 <header class="header">
 
-    <div class="brand">
 
-        <img
-            src="img/UT member of ASTRA horizontal.png"
-            alt="United Tractors Logo">
+<div class="brand">
 
-        <div>
 
-            <h1>SMART PATROL MANAGEMENT SYSTEM</h1>
+<img 
+src="img/UT member of ASTRA horizontal.png"
+alt="United Tractors Logo">
 
-            <p>
-                Digital Security Monitoring Dashboard
-            </p>
 
-        </div>
+<div>
 
-    </div>
+<h1>
+SMART PATROL MANAGEMENT SYSTEM
+</h1>
 
-    <button id="loadButton">
-    LOAD DASHBOARD
-    </button>
+
+<p>
+Digital Security Monitoring Dashboard
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<button id="loadButton">
+🔄 LOAD DASHBOARD
+</button>
+
 
 </header>
 
 
 
+
+
 <!-- ================= MAIN ================= -->
+
 
 <main class="container">
 
-    <!-- KPI -->
-
-    <section class="kpi">
-
-        <div class="cards">
-
-            <div class="card">
-
-                <div class="title">
-                    Total Patrol
-                </div>
-
-                <div class="number" id="total">
-                    0
-                </div>
-
-            </div>
 
 
-            <div class="card">
-
-                <div class="title">
-                    Petugas Aktif
-                </div>
-
-                <div class="number" id="petugas">
-                    0
-                </div>
-
-            </div>
-
-            
-            <div class="card">
-
-                <div class="title">
-                    Checkpoint Terpantau
-                </div>
-
-                <div class="number" id="checkpoint">
-                    0
-                </div>
-
-                <small>
-                    dari seluruh checkpoint
-                </small>
-
-            </div>
+<!-- ================= KPI ================= -->
 
 
-            <div class="card danger">
+<section class="kpi">
 
-                <div class="title">
-                    Temuan
-                </div>
 
-                <div class="number" id="temuan">
-                    0
-                </div>
+<div class="cards">
 
-                <div class="card">
 
-<h3>
+
+<div class="card">
+
+<div class="title">
+Total Patrol
+</div>
+
+<div class="number" id="total">
+0
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<div class="title">
+Petugas Aktif
+</div>
+
+<div class="number" id="petugas">
+0
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<div class="title">
+Checkpoint Terpantau
+</div>
+
+
+<div class="number" id="checkpoint">
+0
+</div>
+
+
+<small>
+Dari seluruh checkpoint
+</small>
+
+
+</div>
+
+
+
+
+<div class="card danger">
+
+<div class="title">
+Temuan
+</div>
+
+
+<div class="number" id="temuan">
+0
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+<!-- ================= LIVE MONITORING ================= -->
+
+
+<section class="box">
+
+
+<h2>
 📡 Monitoring Patrol Realtime
-</h3>
+</h2>
+
+
 
 <table>
 
+
 <thead>
+
 
 <tr>
 
-<th>Lokasi</th>
-<th>Petugas</th>
-<th>Waktu</th>
-<th>Status</th>
+<th>
+Lokasi
+</th>
+
+
+<th>
+Petugas
+</th>
+
+
+<th>
+Waktu Terakhir
+</th>
+
+
+<th>
+Status
+</th>
+
 
 </tr>
+
 
 </thead>
 
 
+
 <tbody id="monitoringTable">
+
 
 </tbody>
 
 
+
 </table>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ================= FILTER ================= -->
+
+
+<section class="filter box">
+
+
+<h2>
+Filter Monitoring
+</h2>
+
+
+
+<div class="filter-row">
+
+
+<select id="filterLokasi">
+
+<option value="">
+Semua Lokasi
+</option>
+
+
+</select>
+
+
+
+
+<select id="filterPetugas">
+
+<option value="">
+Semua Petugas
+</option>
+
+
+</select>
+
+
+
+
+<input
+type="date"
+id="tanggal">
+
+
+
+
+
+<button onclick="filterDashboard()">
+
+Tampilkan
+
+</button>
+
 
 </div>
 
-            </div>
 
-        </div>
-
-    </section>
+</section>
 
 
 
-    <!-- FILTER -->
-
-    <section class="filter">
-
-        <h2>Filter Monitoring</h2>
-
-        <div class="filter-row">
-
-            <select id="filterLokasi">
-                <option value="">
-                    Semua Lokasi
-                </option>
-            </select>
-
-            <select id="filterPetugas">
-                <option value="">
-                    Semua Petugas
-                </option>
-            </select>
-
-            <input
-                type="date"
-                id="tanggal">
-
-            <button onclick="filterDashboard()">
-                Tampilkan
-            </button>
-
-        </div>
-
-    </section>
 
 
 
-    <!-- DASHBOARD -->
 
-    <section class="dashboard-grid">
+<!-- ================= MAP + ANALYTIC ================= -->
 
-        <!-- MAP -->
 
-        <div class="box map-box">
-
-            <h2>🗺 Monitoring Checkpoint</h2>
-
-            <div id="map"></div>
-
-        </div>
+<section class="dashboard-grid">
 
 
 
-        <!-- CHART -->
-
-        <div class="analytic">
-
-            <div class="box">
-
-                <h2>Trend Patrol</h2>
-
-                <canvas id="chartPatrol"></canvas>
-
-            </div>
+<div class="box map-box">
 
 
-            <div class="box">
-
-                <h2>Patrol Lokasi</h2>
-
-                <canvas id="chartLokasi"></canvas>
-
-            </div>
+<h2>
+🗺 Monitoring Checkpoint
+</h2>
 
 
-            <div class="box">
-
-                <h2>Situasi</h2>
-
-                <canvas id="chartSituasi"></canvas>
-
-            </div>
-
-        </div>
-
-    </section>
+<div id="map"></div>
 
 
 
-    <!-- TABLE -->
+</div>
 
-    <section class="box">
 
-        <h2>Riwayat Patroli</h2>
 
-        <table>
 
-            <thead>
 
-                <tr>
+<div class="analytic">
 
-                    <th>Waktu</th>
-                    <th>Nama</th>
-                    <th>Lokasi</th>
-                    <th>Checkpoint</th>
-                    <th>Situasi</th>
 
-                </tr>
+<div class="box">
 
-            </thead>
 
-            <tbody id="tableBody">
+<h2>
+Trend Patrol
+</h2>
 
-                <!-- Dashboard.js akan mengisi data -->
 
-            </tbody>
+<canvas id="chartPatrol"></canvas>
 
-        </table>
 
-    </section>
+</div>
+
+
+
+
+
+<div class="box">
+
+
+<h2>
+Patrol Lokasi
+</h2>
+
+
+<canvas id="chartLokasi"></canvas>
+
+
+</div>
+
+
+
+
+
+<div class="box">
+
+
+<h2>
+Situasi
+</h2>
+
+
+<canvas id="chartSituasi"></canvas>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+
+
+<!-- ================= RIWAYAT ================= -->
+
+
+<section class="box">
+
+
+<h2>
+📋 Riwayat Patroli
+</h2>
+
+
+
+
+<table>
+
+
+
+<thead>
+
+
+<tr>
+
+<th>
+Waktu
+</th>
+
+
+<th>
+Nama
+</th>
+
+
+<th>
+Lokasi
+</th>
+
+
+<th>
+Checkpoint
+</th>
+
+
+<th>
+Situasi
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="tableBody">
+
+
+</tbody>
+
+
+
+</table>
+
+
+
+</section>
+
+
+
+
 
 </main>
 
 
 
-<!-- FOOTER -->
+
+
+
 
 <footer>
 
-    Security Department -
-    PT United Tractors Tbk
+Security Department -
+PT United Tractors Tbk
 
 </footer>
 
 
 
+
 <script src="dashboard.js"></script>
 
+
+
 </body>
+
 
 </html>
