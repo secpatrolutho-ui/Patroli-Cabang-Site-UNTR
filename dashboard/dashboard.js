@@ -438,6 +438,7 @@ let markerLayer;
 
 function renderMap(points){
 
+    console.log("MAP DATA :", points);
 
     if(!points || points.length === 0){
         return;
