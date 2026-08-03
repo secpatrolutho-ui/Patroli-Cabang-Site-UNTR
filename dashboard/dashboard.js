@@ -24,6 +24,7 @@ await fetch(API+"?action=getDashboard");
 const result =
 await response.json();
 
+generateFilter(result.data);
 
 
 console.log(
@@ -532,3 +533,152 @@ document
 "click",
 loadDashboard
 );
+
+function filterDashboard(){
+
+
+let lokasi =
+document.getElementById(
+"filterLokasi"
+).value;
+
+
+let petugas =
+document.getElementById(
+"filterPetugas"
+).value;
+
+
+
+let url =
+API+
+"?action=getDashboard"+
+"&lokasi="+lokasi+
+"&nama="+petugas;
+
+
+
+fetch(url)
+
+.then(res=>res.json())
+
+.then(result=>{
+
+
+console.log(
+"FILTER RESULT",
+result
+);
+
+
+
+updateKPI(result);
+
+
+updateTable(
+result.data
+);
+
+
+renderMap(
+result.checkpointMap
+);
+
+
+renderChart(result);
+
+
+});
+
+
+}
+
+function generateFilter(data){
+
+
+let lokasiSet=new Set();
+
+let petugasSet=new Set();
+
+
+
+for(let i=1;i<data.length;i++){
+
+
+lokasiSet.add(
+data[i][3]
+);
+
+
+petugasSet.add(
+data[i][1]
+);
+
+
+}
+
+
+
+let lokasi =
+document.getElementById(
+"filterLokasi"
+);
+
+
+
+lokasi.innerHTML=
+`
+<option value="">
+Semua Lokasi
+</option>
+`;
+
+
+
+lokasiSet.forEach(x=>{
+
+
+lokasi.innerHTML+=
+`
+<option value="${x}">
+${x}
+</option>
+`;
+
+
+});
+
+
+
+
+let petugas =
+document.getElementById(
+"filterPetugas"
+);
+
+
+
+petugas.innerHTML=
+`
+<option value="">
+Semua Petugas
+</option>
+`;
+
+
+
+petugasSet.forEach(x=>{
+
+
+petugas.innerHTML+=
+`
+<option value="${x}">
+${x}
+</option>
+`;
+
+
+
+});
+
+}
