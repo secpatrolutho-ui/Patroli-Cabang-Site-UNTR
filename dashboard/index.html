@@ -271,23 +271,9 @@ Petugas Aktif
 
 <div class="card">
 
-Checkpoint
-
-<div class="number" id="checkpoint">
-
-0
-
-</div>
-
-</div>
-
-
-
-<div class="card">
-
 Checkpoint Aktif
 
-<div class="number" id="checkpoint">
+<div class="number" id="checkpointAktif">
 
 0
 
@@ -298,7 +284,6 @@ dari total checkpoint
 </small>
 
 </div>
-
 
 
 
@@ -568,6 +553,8 @@ async function loadDashboard(){
         document.getElementById("checkpoint").innerHTML =
         result.checkpoint || 0;
 
+        document.getElementById("checkpointAktif").innerHTML =
+        result.checkpointAktif || 0;
 
         document.getElementById("temuan").innerHTML =
         result.temuan || 0;
@@ -647,11 +634,12 @@ async function loadDashboard(){
 
 
 
-        button.innerHTML="LOAD DASHBOARD";
-
-
+       document.querySelector(".header button").innerHTML =
+       "LOAD DASHBOARD";
 
     }
+
+      
     catch(error){
 
 
@@ -678,7 +666,7 @@ function updateFilter(data){
 
 
 
-    let wilayah =
+    let lokasi =
     document.getElementById("lokasi");
 
 
@@ -718,16 +706,12 @@ function updateFilter(data){
     }
 
 
-
-
     lokasi.innerHTML =
     '<option value="">Semua lokasi</option>';
 
 
     nama.innerHTML =
     '<option value="">Semua Petugas</option>';
-
-
 
 
     lokasiSet.forEach(function(item){
@@ -745,8 +729,6 @@ function updateFilter(data){
     });
 
 
-
-
     namaSet.forEach(function(item){
 
 
@@ -762,23 +744,15 @@ function updateFilter(data){
     });
 
 
-
-
-
     lokasi.value =
-    wilayahOld;
+    lokasiOld;
 
 
     nama.value =
     namaOld;
 
 
-
 }
-
-
-
-
 
 
 
@@ -796,9 +770,9 @@ function renderChart(result){
 
 
 
-    if(chartWilayah){
+    if(chartlokasi){
 
-        chartWilayah.destroy();
+        chartlokasi.destroy();
 
     }
 
@@ -850,13 +824,9 @@ function renderChart(result){
 
 
 
+    chartlokasi = new Chart(
 
-
-
-
-    chartWilayah = new Chart(
-
-        document.getElementById("chartWilayah"),
+        document.getElementById("chartlokasi"),
 
         {
 
@@ -865,7 +835,7 @@ function renderChart(result){
         data:{
 
             labels:
-            (result.chartWilayah || []).map(
+            (result.chartlokasi || []).map(
             x=>x.wilayah
             ),
 
