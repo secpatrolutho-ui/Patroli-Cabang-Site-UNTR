@@ -2,20 +2,33 @@ const API =
 "https://script.google.com/macros/s/AKfycbwvMYlVBsxjef7-OVHqmiaUX0gecof7VEG2-JlMyp0sAeeJj_ANslssKDpXQJX-pbgY/exec";
 
 
+let chartPatrol;
+let chartLokasi;
+let chartSituasi;
+
+let map;
+let markerLayer;
+
+
+
 async function loadDashboard(){
 
-let btn =
-document.getElementById("loadButton");
-    
+let btn=document.getElementById("loadButton");
+
+
+if(btn){
+
+btn.innerHTML="⏳ Loading...";
+btn.disabled=true;
+
+}
+
+
 try{
-    
+
 
 const response =
-await fetch(
-API+
-"?action=getDashboard"
-);
-
+await fetch(API+"?action=getDashboard");
 
 
 const result =
@@ -33,22 +46,13 @@ result
 updateKPI(result);
 
 
-
-updateTable(
-result.data
-);
+updateTable(result.data);
 
 
-
-renderMap(
-result.checkpointMap
-);
+renderMap(result.checkpointMap);
 
 
-
-renderChart(
-result
-);
+renderChart(result);
 
 
 
@@ -56,23 +60,19 @@ result
 
 catch(error){
 
-    console.error(error);
-    }    
-
-catch(error){
-
-
 console.error(error);
 
-    }
-    
-finally{
+}
 
-    if(btn){
 
-        btn.innerHTML="🔄 Refresh Dashboard";
-        btn.disabled=false;
-    }
+
+if(btn){
+
+btn.innerHTML="🔄 Refresh Dashboard";
+btn.disabled=false;
+
+}
+
 
 }
 
@@ -530,6 +530,11 @@ function renderMap(points){
 // AUTO REFRESH DASHBOARD
 // ===============================
 
+window.onload=function(){
+
+loadDashboard();
+
+};
 
 setInterval(function(){
 
@@ -538,3 +543,10 @@ setInterval(function(){
 
 
 },30000);
+
+document
+.getElementById("loadButton")
+.addEventListener(
+"click",
+loadDashboard
+);
