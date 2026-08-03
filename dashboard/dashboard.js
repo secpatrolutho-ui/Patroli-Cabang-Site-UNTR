@@ -711,8 +711,20 @@ result
 
 let tbody =
 document.getElementById(
-"monitoringTable"
+"monitoringBody"
 );
+
+
+
+if(!tbody){
+
+console.error(
+"Elemen monitoringBody tidak ditemukan"
+);
+
+return;
+
+}
 
 
 
@@ -773,7 +785,6 @@ ${warna} ${item.status}
 
 
 </tr>
-
 
 `;
 
