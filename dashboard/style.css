@@ -409,3 +409,33 @@ width:100%;
 }
 
 }
+
+#monitoringTable tr td:last-child{
+
+font-weight:bold;
+
+}
+
+
+.status-aktif{
+
+color:#00a651;
+font-weight:bold;
+
+}
+
+
+.status-waspada{
+
+color:#f39c12;
+font-weight:bold;
+
+}
+
+
+.status-tidak{
+
+color:#e74c3c;
+font-weight:bold;
+
+}
