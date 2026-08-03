@@ -102,6 +102,13 @@ box-shadow:0 5px 15px rgba(0,0,0,.2);
 
 }
 
+.card:hover{
+
+transform:translateY(-5px);
+transition:.3s;
+
+}  
+
 
 
 .number{
@@ -195,7 +202,11 @@ text-align:left;
 
 <div class="header">
 
-
+<img 
+src="logo-ut.png"
+width="80"
+>
+  
 <h1>
 SMART PATROL MANAGEMENT SYSTEM
 </h1>
@@ -210,6 +221,10 @@ PT United Tractors Tbk
 <button onclick="loadDashboard()">
 LOAD DASHBOARD
 </button>
+
+<p id="lastUpdate">
+Last Update : -
+</p>
 
 
 </div>
@@ -270,19 +285,19 @@ Checkpoint
 
 <div class="card">
 
-Temuan
+Checkpoint Aktif
 
-<div class="number" id="temuan">
+<div class="number" id="checkpoint">
 
 0
 
 </div>
 
+<small>
+dari total checkpoint
+</small>
+
 </div>
-
-
-</div>
-
 
 
 
@@ -503,8 +518,9 @@ let markerLayer;
 
 async function loadDashboard(){
 
-    const button = document.querySelector(".header button");
-    button.innerHTML="LOADING...";
+    const button = document.getElementById("lastUpdate").innerHTML =
+    "Last Update : " +
+    new Date().toLocaleString("id-ID");
 
 
     const url =
@@ -631,15 +647,16 @@ async function loadDashboard(){
     catch(error){
 
 
-        console.error(error);
+    console.error(error);
 
 
-        button.innerHTML="LOAD DASHBOARD";
+    document.querySelector(".header button").innerHTML =
+    "LOAD DASHBOARD";
 
 
-        alert(
-        "Gagal mengambil data dashboard"
-        );
+    alert(
+    "Gagal mengambil data dashboard"
+    );
 
 
     }
@@ -996,8 +1013,29 @@ loadDashboard();
 
 }
 
+<script>
+
+setInterval(function(){
+
+    loadDashboard();
+
+},30000); // refresh setiap 30 detik
+
 </script>
 
+<footer style="
+background:#F4C400;
+color:#002B5B;
+text-align:center;
+padding:15px;
+margin-top:30px;
+font-size:14px;
+">
+
+Security Department -
+PT United Tractors Tbk
+
+</footer>  
 
 </body>
 
