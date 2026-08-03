@@ -40,6 +40,9 @@ const result =
 await response.json();
 
 if(
+!activeFilter.lokasi &&
+!activeFilter.nama &&
+!activeFilter.tanggal &&
 document.getElementById("filterLokasi").options.length <=1
 ){
 
@@ -169,13 +172,6 @@ tbody.innerHTML+=row;
 
 
 }
-
-window.onload=function(){
-
-loadDashboard();
-
-}
-
 
 let chartPatrol;
 let chartLokasi;
@@ -579,42 +575,14 @@ document.querySelector(
 
 
 
-loadDashboard();
-
-}
-
-fetch(url)
-
-.then(res=>res.json())
-
-.then(result=>{
-
-
 console.log(
-"FILTER RESULT",
-result
+"FILTER AKTIF",
+activeFilter
 );
 
 
 
-updateKPI(result);
-
-
-updateTable(
-result.data
-);
-
-
-renderMap(
-result.checkpointMap
-);
-
-
-renderChart(result);
-
-
-});
-
+loadDashboard();
 
 }
 
@@ -692,7 +660,7 @@ Semua Petugas
 
 
 
-petugasSet.forEach(x=>{
+ppetugasSet.forEach(x=>{
 
 
 petugas.innerHTML+=
@@ -702,8 +670,14 @@ ${x}
 </option>
 `;
 
-
-
 });
+
+
+// restore filter aktif setelah refresh
+
+lokasi.value = activeFilter.lokasi;
+
+petugas.value = activeFilter.nama;
+
 
 }
