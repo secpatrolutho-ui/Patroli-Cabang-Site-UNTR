@@ -31,13 +31,22 @@ API+
 "&tanggal="+activeFilter.tanggal;
 
 
-
 const response =
 await fetch(url);
 
 
+const text =
+await response.text();
+
+
+console.log(
+"RAW API RESPONSE",
+text
+);
+
+
 const result =
-await response.json();
+JSON.parse(text);
 
 if(
 !activeFilter.lokasi &&
@@ -541,14 +550,18 @@ function renderMap(points){
 // AUTO REFRESH DASHBOARD
 // ===============================
 
-window.onload=function(){
+window.onload=async function(){
 
-loadDashboard();
 
-loadMonitoring();
-  
-loadPatrolList();
-    
+await loadDashboard();
+
+
+await loadMonitoring();
+
+
+await loadPatrolList();
+
+
 };
 
 setInterval(function(){
