@@ -205,6 +205,10 @@ let finishMarker = null;
 
 let replaySpeed = 2000;
 
+let replayDistance = 0;
+
+let replayStartTime = null;
+
 // ===============================
 // RENDER CHART
 // ===============================
@@ -1304,7 +1308,11 @@ alert(
 return;
 
 }
+    
+replayDistance = 0;
 
+replayStartTime =
+Date.now();
 
 
 if(replayTimer){
@@ -1363,7 +1371,29 @@ activeRoute[
 replayIndex
 ];
 
+if(replayIndex > 0){
 
+
+let prev =
+activeRoute[
+replayIndex-1
+];
+
+
+replayDistance +=
+
+calculateDistance(
+
+prev.lat,
+prev.lng,
+
+point.lat,
+point.lng
+
+);
+
+
+}
 
 replayMarker.setLatLng(
 
@@ -1376,40 +1406,81 @@ point.lng
 
 
 
+let duration =
+Math.floor(
+(Date.now()-replayStartTime)
+/1000
+);
+
+
 document.getElementById(
 "replayInfo"
 ).innerHTML =
 
+
 `
 
 <b>
-Point:
+🚶 PATROL REPLAY
 </b>
-${point.no}
+
+<hr>
+
+
+<b>Progress:</b>
+
+${point.no}/${activeRoute.length}
+
 
 <br>
 
-<b>
-Speed:
-</b>
+
+<b>Distance:</b>
+
+${Math.round(replayDistance)}
+ meter
+
+
+<br>
+
+
+<b>Speed:</b>
+
 ${Number(point.speed).toFixed(2)}
-km/h
+
 
 <br>
 
-<b>
-Accuracy:
-</b>
+
+<b>Accuracy:</b>
+
 ${Number(point.accuracy).toFixed(1)}
-meter
+ meter
+
+
+<br>
+
+
+<b>GPS Time:</b>
+
+${new Date(
+point.time
+)
+.toLocaleTimeString()
+}
+
+
+<br>
+
+
+<b>Duration:</b>
+
+${formatDuration(duration)}
+
 
 `;
 
-
-
 replayIndex++;
-
-
 
 }
 
@@ -1461,6 +1532,99 @@ document.getElementById(
 "replayInfo"
 ).innerHTML="";
 
+
+
+}
+
+function calculateDistance(
+lat1,
+lon1,
+lat2,
+lon2
+){
+
+
+const R = 6371000;
+
+
+const dLat =
+(lat2-lat1)
+*
+Math.PI/180;
+
+
+const dLon =
+(lon2-lon1)
+*
+Math.PI/180;
+
+
+
+const a =
+
+Math.sin(dLat/2)
+*
+Math.sin(dLat/2)
+
++
+
+Math.cos(lat1*Math.PI/180)
+*
+Math.cos(lat2*Math.PI/180)
+
+*
+
+Math.sin(dLon/2)
+*
+Math.sin(dLon/2);
+
+
+
+const c =
+2 *
+Math.atan2(
+Math.sqrt(a),
+Math.sqrt(1-a)
+);
+
+
+
+return R*c;
+
+
+}
+
+function formatDuration(sec){
+
+
+let h =
+Math.floor(sec/3600);
+
+
+let m =
+Math.floor(
+(sec%3600)/60
+);
+
+
+let s =
+sec%60;
+
+
+
+return (
+
+String(h).padStart(2,"0")
++
+":"
++
+String(m).padStart(2,"0")
++
+":"
++
+String(s).padStart(2,"0")
+
+);
 
 
 }
