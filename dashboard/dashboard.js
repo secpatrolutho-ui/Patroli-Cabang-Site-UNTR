@@ -182,6 +182,16 @@ let routeMarkerLayer;
 
 let activeRoute = null;
 
+// REPLAY
+
+let replayIndex = 0;
+
+let replayTimer = null;
+
+let replayMarker = null;
+
+let replaySpeed = 2000;
+
 // ===============================
 // RENDER CHART
 // ===============================
