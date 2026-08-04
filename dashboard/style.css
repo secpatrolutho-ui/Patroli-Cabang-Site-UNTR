@@ -471,3 +471,14 @@ border-radius:20px;
 font-size:12px;
 
 }
+
+.patrol-arrow{
+
+font-size:28px;
+
+transform-origin:center;
+
+transition:
+transform 0.5s ease;
+
+}
