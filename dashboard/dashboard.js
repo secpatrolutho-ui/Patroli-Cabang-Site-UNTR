@@ -1008,13 +1008,14 @@ points,
 
 {
 
-weight:5
+weight:6,
+
+color:"red"
 
 }
 
 )
 .addTo(map);
-
 
 
 
