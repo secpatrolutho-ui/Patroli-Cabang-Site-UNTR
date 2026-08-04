@@ -1087,7 +1087,7 @@ map.fitBounds(
 routeLayer.getBounds()
 );
 
-
+prepareReplay(route);
 
 }
 
@@ -1112,6 +1112,227 @@ activeRoute=null;
 
 
 loadDashboard();
+
+
+}
+
+function prepareReplay(route){
+
+
+replayIndex = 0;
+
+
+
+if(replayMarker){
+
+map.removeLayer(
+replayMarker
+);
+
+}
+
+
+
+replayMarker =
+L.marker(
+
+[
+route[0].lat,
+route[0].lng
+],
+
+{
+
+icon:L.icon({
+
+iconUrl:
+"https://cdn-icons-png.flaticon.com/512/684/684908.png",
+
+iconSize:[
+35,
+35
+]
+
+})
+
+}
+
+)
+.addTo(map);
+
+
+
+}
+
+function startReplay(){
+
+
+if(!activeRoute){
+
+alert(
+"Load patrol route terlebih dahulu"
+);
+
+return;
+
+}
+
+
+
+if(replayTimer){
+
+return;
+
+}
+
+
+
+replaySpeed =
+Number(
+document.getElementById(
+"replaySpeed"
+).value
+);
+
+
+
+replayTimer =
+setInterval(function(){
+
+
+moveReplay();
+
+
+},replaySpeed);
+
+
+
+}
+
+function moveReplay(){
+
+
+if(
+replayIndex >= activeRoute.length
+){
+
+clearInterval(
+replayTimer
+);
+
+
+replayTimer=null;
+
+
+return;
+
+}
+
+
+
+let point =
+activeRoute[
+replayIndex
+];
+
+
+
+replayMarker.setLatLng(
+
+[
+point.lat,
+point.lng
+]
+
+);
+
+
+
+document.getElementById(
+"replayInfo"
+).innerHTML =
+
+`
+
+<b>
+Point:
+</b>
+${point.no}
+
+<br>
+
+<b>
+Speed:
+</b>
+${Number(point.speed).toFixed(2)}
+km/h
+
+<br>
+
+<b>
+Accuracy:
+</b>
+${Number(point.accuracy).toFixed(1)}
+meter
+
+`;
+
+
+
+replayIndex++;
+
+
+
+}
+
+function pauseReplay(){
+
+
+clearInterval(
+replayTimer
+);
+
+
+replayTimer=null;
+
+
+}
+
+function resetReplay(){
+
+
+pauseReplay();
+
+
+replayIndex=0;
+
+
+
+if(activeRoute){
+
+
+let p =
+activeRoute[0];
+
+
+
+replayMarker.setLatLng(
+
+[
+p.lat,
+p.lng
+]
+
+);
+
+
+}
+
+
+document.getElementById(
+"replayInfo"
+).innerHTML="";
+
 
 
 }
