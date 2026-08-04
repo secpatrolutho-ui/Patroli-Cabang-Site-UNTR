@@ -536,7 +536,8 @@ loadDashboard();
 
 loadMonitoring();
   
-
+loadPatrolList();
+    
 };
 
 setInterval(function(){
