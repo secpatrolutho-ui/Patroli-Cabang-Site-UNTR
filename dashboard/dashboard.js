@@ -177,6 +177,8 @@ let chartSituasi;
 
 let map;
 let markerLayer;
+let routeLayer;
+let routeMarkerLayer;
 
 
 // ===============================
@@ -803,6 +805,270 @@ err
 );
 
 }
+
+
+}
+
+async function loadPatrolList(){
+
+
+try{
+
+
+let response =
+await fetch(
+API+"?action=getPatrolSummary"
+);
+
+
+let result =
+await response.json();
+
+
+
+let select =
+document.getElementById(
+"routePatrolId"
+);
+
+
+
+if(!select) return;
+
+
+
+select.innerHTML=
+`
+<option value="">
+Pilih Patrol Session
+</option>
+`;
+
+
+
+result.data.forEach(item=>{
+
+
+select.innerHTML +=
+
+`
+<option value="${item.patrolId}">
+${item.patrolId} - ${item.nama}
+</option>
+`;
+
+
+
+});
+
+
+}
+catch(err){
+
+console.error(
+"Load Patrol List Error",
+err
+);
+
+}
+
+
+}
+
+async function loadPatrolRoute(){
+
+
+let patrolId =
+document.getElementById(
+"routePatrolId"
+).value;
+
+
+
+if(!patrolId){
+
+alert(
+"Pilih Patrol Session dahulu"
+);
+
+return;
+
+}
+
+
+
+try{
+
+
+let response =
+await fetch(
+
+API+
+"?action=getPatrolRoute&patrolId="
++
+patrolId
+
+);
+
+
+
+let result =
+await response.json();
+
+
+
+console.log(
+"PATROL ROUTE",
+result
+);
+
+
+
+drawPatrolRoute(
+result.route
+);
+
+
+
+}
+catch(err){
+
+console.error(
+"Route Error",
+err
+);
+
+
+}
+
+
+}
+
+function drawPatrolRoute(route){
+
+
+
+if(!route || route.length==0){
+
+alert(
+"Data route tidak ditemukan"
+);
+
+return;
+
+}
+
+
+
+// hapus route lama
+
+if(routeLayer){
+
+map.removeLayer(routeLayer);
+
+}
+
+
+if(routeMarkerLayer){
+
+map.removeLayer(routeMarkerLayer);
+
+}
+
+
+
+let points=[];
+
+
+
+route.forEach(p=>{
+
+
+points.push([
+
+Number(p.lat),
+
+Number(p.lng)
+
+]);
+
+
+});
+
+
+
+
+// buat garis
+
+routeLayer =
+L.polyline(
+
+points,
+
+{
+
+weight:5
+
+}
+
+)
+.addTo(map);
+
+
+
+
+// marker layer
+
+routeMarkerLayer =
+L.layerGroup()
+.addTo(map);
+
+
+
+
+// START
+
+L.marker(
+
+points[0]
+
+)
+
+.bindPopup(
+"🟢 START PATROL"
+)
+
+.addTo(
+routeMarkerLayer
+);
+
+
+
+
+// FINISH
+
+L.marker(
+
+points[
+points.length-1
+]
+
+)
+
+.bindPopup(
+"🔴 FINISH PATROL"
+)
+
+.addTo(
+routeMarkerLayer
+);
+
+
+
+map.fitBounds(
+routeLayer.getBounds()
+);
+
 
 
 }
