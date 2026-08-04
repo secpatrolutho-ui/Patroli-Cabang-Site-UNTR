@@ -1371,6 +1371,9 @@ activeRoute[
 replayIndex
 ];
 
+let heading =
+Number(point.heading || 0);    
+
 if(replayIndex > 0){
 
 
@@ -1404,7 +1407,29 @@ point.lng
 
 );
 
+let el =
+replayMarker
+.getElement();
 
+
+if(el){
+
+let arrow =
+el.querySelector(
+".patrol-arrow"
+);
+
+
+if(arrow){
+
+arrow.style.transform =
+`
+rotate(${heading}deg)
+`;
+
+}
+
+}
 
 let duration =
 Math.floor(
