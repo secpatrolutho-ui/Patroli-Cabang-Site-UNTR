@@ -482,3 +482,14 @@ transition:
 transform 0.5s ease;
 
 }
+
+.patrol-direction{
+
+font-size:30px;
+
+transform-origin:center;
+
+transition:
+transform 0.5s ease;
+
+}
