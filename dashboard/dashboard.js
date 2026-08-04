@@ -1429,6 +1429,34 @@ point.lng
 
 );
 
+let markerElement =
+replayMarker.getElement();
+
+
+if(markerElement){
+
+
+let icon =
+markerElement.querySelector(
+".patrol-direction"
+);
+
+
+
+if(icon){
+
+
+icon.style.transform =
+`
+rotate(${point.heading}deg)
+`;
+
+
+}
+
+
+}
+    
 let el =
 replayMarker
 .getElement();
