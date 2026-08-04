@@ -180,6 +180,7 @@ let markerLayer;
 let routeLayer;
 let routeMarkerLayer;
 
+let activeRoute = null;
 
 // ===============================
 // RENDER CHART
@@ -506,7 +507,7 @@ function renderMap(points){
 
 
 
-    if(bounds.length > 0){
+    if(bounds.length > 0 && !activeRoute){
 
         map.fitBounds(
             bounds
@@ -947,7 +948,7 @@ err
 
 function drawPatrolRoute(route){
 
-
+activeRoute = route;
 
 if(!route || route.length==0){
 
