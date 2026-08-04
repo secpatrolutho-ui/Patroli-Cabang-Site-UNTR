@@ -83,6 +83,8 @@ async function startPatrol() {
 
         localStorage.setItem("patrolStart",Date.now());
 
+        mulaiGPS();  
+
         loadSession();
 
     }
@@ -233,6 +235,8 @@ async function finishPatrol(){
         localStorage.removeItem("patrolStatus");
 
         localStorage.removeItem("patrolStart");
+
+        stopGPS();  
 
         clearInterval(patrolTimer);
 
