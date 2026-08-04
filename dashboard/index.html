@@ -259,9 +259,13 @@ Status
 
 <div class="box">
 
-<h2>🛣 Patrol Route Viewer</h2>
+<h2>
+🛣 Patrol Route Viewer
+</h2>
+
 
 <div style="display:flex;gap:10px;margin-bottom:10px;">
+
 
 <select id="routePatrolId" style="flex:1">
 
@@ -271,15 +275,66 @@ Pilih Patrol Session
 
 </select>
 
+
 <button onclick="loadPatrolRoute()">
 Lihat Jalur
 </button>
 
-<button onclick="clearRoute()">
-❌ Reset Jalur
-</button>  
 
 </div>
+
+
+
+<div id="replayControl"
+style="
+display:none;
+margin-top:15px;
+">
+
+
+<button onclick="startReplay()">
+▶ Play
+</button>
+
+
+<button onclick="pauseReplay()">
+⏸ Pause
+</button>
+
+
+<button onclick="resetReplay()">
+🔄 Reset
+</button>
+
+
+
+<select id="replaySpeed">
+
+<option value="2000">
+1x
+</option>
+
+<option value="1000">
+2x
+</option>
+
+
+<option value="400">
+5x
+</option>
+
+
+</select>
+
+
+
+<div id="replayInfo">
+
+</div>
+
+
+</div>
+
 
 </div>
   
