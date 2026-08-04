@@ -118,6 +118,87 @@ if (isPatrolActive()) {
 
 }
 
+function updateTrackingInfo(position){
+
+
+let totalPoint =
+document.getElementById(
+"totalPoint"
+);
+
+
+let totalDistance =
+document.getElementById(
+"totalDistance"
+);
+
+
+let speed =
+document.getElementById(
+"speed"
+);
+
+
+
+if(totalPoint){
+
+totalPoint.innerHTML =
+totalTrackPoint();
+
+}
+
+
+
+if(totalDistance){
+
+let distance=0;
+
+let data=getTrackBuffer();
+
+
+for(let i=1;i<data.length;i++){
+
+distance += calculateDistance(
+
+data[i-1].lat,
+data[i-1].lng,
+
+data[i].lat,
+data[i].lng
+
+);
+
+}
+
+
+totalDistance.innerHTML =
+formatMeter(distance);
+
+
+}
+
+
+
+if(speed){
+
+
+let kmh =
+(position.coords.speed || 0)
+*
+3.6;
+
+
+speed.innerHTML =
+kmh.toFixed(1)
++
+" KM/H";
+
+
+}
+
+
+}
+
 /* ==========================================
    GPS ERROR
 ========================================== */
