@@ -1507,6 +1507,11 @@ ${formatDuration(duration)}
 
 replayIndex++;
 
+console.log(
+"CURRENT POINT",
+point
+);    
+
 }
 
 function pauseReplay(){
