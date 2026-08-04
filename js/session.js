@@ -85,6 +85,9 @@ async function startPatrol() {
 
         mulaiGPS();  
 
+        document.getElementById("trackingStatus").innerHTML =
+        "🟢 Recording GPS";  
+
         loadSession();
 
     }
@@ -228,6 +231,11 @@ async function finishPatrol(){
            CLEAR MEMORY
         ====================================== */
 
+        stopGPS(); 
+
+        document.getElementById("trackingStatus").innerHTML =
+        "⚪ Tracking selesai";
+          
         clearTrackBuffer();
 
         localStorage.removeItem("patrolId");
@@ -235,9 +243,7 @@ async function finishPatrol(){
         localStorage.removeItem("patrolStatus");
 
         localStorage.removeItem("patrolStart");
-
-        stopGPS();  
-
+        
         clearInterval(patrolTimer);
 
         hideLoading();
