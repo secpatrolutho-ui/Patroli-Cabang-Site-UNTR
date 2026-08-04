@@ -199,6 +199,10 @@ let replayTimer = null;
 
 let replayMarker = null;
 
+let startMarker = null;
+
+let finishMarker = null;
+
 let replaySpeed = 2000;
 
 // ===============================
@@ -1136,6 +1140,8 @@ replayIndex = 0;
 
 
 
+// hapus marker lama
+
 if(replayMarker){
 
 map.removeLayer(
@@ -1145,8 +1151,30 @@ replayMarker
 }
 
 
+if(startMarker){
 
-replayMarker =
+map.removeLayer(
+startMarker
+);
+
+}
+
+
+if(finishMarker){
+
+map.removeLayer(
+finishMarker
+);
+
+}
+
+
+
+// =====================
+// START MARKER
+// =====================
+
+startMarker =
 L.marker(
 
 [
@@ -1156,7 +1184,8 @@ route[0].lng
 
 {
 
-icon:L.icon({
+icon:
+L.icon({
 
 iconUrl:
 "https://cdn-icons-png.flaticon.com/512/684/684908.png",
@@ -1175,8 +1204,94 @@ iconSize:[
 
 
 
+startMarker.bindPopup(
+`
+<b>🟢 START PATROL</b>
+<br>
+Point : 1
+`
+);
+
+
+
+
+// =====================
+// FINISH MARKER
+// =====================
+
+
+finishMarker =
+L.marker(
+
+[
+route[
+route.length-1
+].lat,
+
+route[
+route.length-1
+].lng
+
+],
+
+{
+
+icon:
+L.icon({
+
+iconUrl:
+"https://cdn-icons-png.flaticon.com/512/252/252025.png",
+
+iconSize:[
+35,
+35
+]
+
+})
+
 }
 
+)
+
+.addTo(map);
+
+
+
+finishMarker.bindPopup(
+`
+
+<b>🔴 FINISH PATROL</b>
+
+<br>
+
+Point :
+${route.length}
+
+`
+);
+
+
+
+// =====================
+// MOVING MARKER
+// =====================
+
+
+replayMarker =
+L.marker(
+
+[
+route[0].lat,
+route[0].lng
+]
+
+)
+
+.addTo(map);
+
+
+
+}
 function startReplay(){
 
 
