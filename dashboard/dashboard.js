@@ -1281,16 +1281,38 @@ ${route.length}
 // =====================
 
 
+const patrolIcon = L.divIcon({
+
+html:`
+
+<div class="patrol-direction">
+🚶
+</div>
+
+`,
+
+className:"patrol-icon",
+
+iconSize:[35,35],
+
+iconAnchor:[17,17]
+
+});
+
+
 replayMarker =
 L.marker(
 
 [
 route[0].lat,
 route[0].lng
-]
+],
+
+{
+icon:patrolIcon
+}
 
 )
-
 .addTo(map);
 
 
