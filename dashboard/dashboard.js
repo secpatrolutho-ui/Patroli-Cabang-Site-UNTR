@@ -1523,6 +1523,11 @@ ${Math.round(replayDistance)}
 
 ${Number(point.speed).toFixed(2)}
 
+<br>
+
+<b>Heading:</b>
+
+${point.heading.toFixed(0)}°
 
 <br>
 
