@@ -941,6 +941,11 @@ result.route
 );
 
 
+document.getElementById(
+"replayControl"
+).style.display="block";
+    
+
 
 }
 catch(err){
