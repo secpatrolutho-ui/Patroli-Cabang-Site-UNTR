@@ -1076,6 +1076,31 @@ routeLayer.getBounds()
 
 }
 
+function clearRoute(){
+
+
+if(routeLayer){
+
+map.removeLayer(routeLayer);
+
+}
+
+
+if(routeMarkerLayer){
+
+map.removeLayer(routeMarkerLayer);
+
+}
+
+
+activeRoute=null;
+
+
+loadDashboard();
+
+
+}
+
 function updateMonitoring(data){
 
 
