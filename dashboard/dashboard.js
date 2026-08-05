@@ -1767,3 +1767,169 @@ ${item.status}
 
 
 }
+
+function downloadPDF(){
+
+
+let rows =
+document.querySelectorAll(
+"#historyBody tr"
+);
+
+
+if(rows.length==0){
+
+alert(
+"Tidak ada data untuk dibuat laporan."
+);
+
+return;
+
+}
+
+
+
+const {
+jsPDF
+}
+=
+window.jspdf;
+
+
+
+let doc =
+new jsPDF();
+
+
+
+doc.setFontSize(16);
+
+doc.text(
+"SMART PATROL MANAGEMENT SYSTEM",
+10,
+20
+);
+
+
+doc.setFontSize(12);
+
+
+doc.text(
+"Patrol Report",
+10,
+30
+);
+
+
+
+let y=45;
+
+
+
+doc.text(
+"Tanggal : "
++
+(
+activeFilter.tanggal ||
+"Semua"
+),
+
+10,
+y
+);
+
+
+y+=10;
+
+
+doc.text(
+"Lokasi : "
++
+(
+activeFilter.lokasi ||
+"Semua"
+),
+
+10,
+y
+);
+
+
+y+=10;
+
+
+doc.text(
+"Petugas : "
++
+(
+activeFilter.nama ||
+"Semua"
+),
+
+10,
+y
+);
+
+
+y+=20;
+
+
+doc.text(
+"Detail Patrol",
+
+10,
+y
+);
+
+
+y+=10;
+
+
+
+rows.forEach((row,index)=>{
+
+
+let text =
+row.innerText
+.replace(/\n/g," | ");
+
+
+
+doc.text(
+
+(index+1)
++". "
++
+text,
+
+10,
+
+y
+
+);
+
+
+
+y+=8;
+
+
+
+if(y>280){
+
+doc.addPage();
+
+y=20;
+
+}
+
+
+});
+
+
+
+doc.save(
+"Patrol_Report.pdf"
+);
+
+
+}
